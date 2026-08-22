@@ -5,12 +5,21 @@ function Admin() {
   const navigate = useNavigate();
 
   const [lesson, setLesson] = useState({
+    date: "",
+    teacher: "",
     title: "",
     theme: "",
     verse: "",
     story: "",
+    explanation: "",
+    questions: ["", "", "", ""],
+    activity: "",
+    prayer: "",
     video: "",
   });
+
+  const [saving, setSaving] = useState(false);
+  const [generating, setGenerating] = useState(false);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -21,34 +30,134 @@ function Admin() {
     }));
   }
 
-  function handleSubmit(event) {
+  function handleQuestionChange(index, value) {
+    setLesson((previousLesson) => {
+      const updatedQuestions = [...previousLesson.questions];
+      updatedQuestions[index] = value;
+
+      return {
+        ...previousLesson,
+        questions: updatedQuestions,
+      };
+    });
+  }
+
+  async function generateWithAI() {
+    if (!lesson.title || !lesson.theme) {
+      alert("Primero escribe el título y el tema principal.");
+      return;
+    }
+
+    try {
+      setGenerating(true);
+
+      const response = await fetch(
+        "http://localhost:5001/api/generate-lesson",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            title: lesson.title,
+            theme: lesson.theme,
+          }),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("No se pudo generar la lección");
+      }
+
+      const data = await response.json();
+
+      setLesson((previousLesson) => ({
+        ...previousLesson,
+        verse: data.verse || "",
+        story: data.bibleStory || "",
+        explanation: data.explanation || "",
+        questions:
+          Array.isArray(data.questions) && data.questions.length > 0
+            ? data.questions
+            : ["", "", "", ""],
+        activity: data.activity || "",
+        prayer: data.prayer || "",
+      }));
+    } catch (error) {
+      console.error("Error generando con IA:", error);
+
+      alert(
+        "Hubo un error al generar la lección con IA. Revisa que el backend esté corriendo."
+      );
+    } finally {
+      setGenerating(false);
+    }
+  }
+
+  async function handleSubmit(event) {
     event.preventDefault();
 
-    localStorage.setItem(
-      "weeklyLesson",
-      JSON.stringify(lesson)
-    );
+    try {
+      setSaving(true);
 
-    alert("La lección fue guardada correctamente.");
+      const response = await fetch(
+        "http://localhost:5001/api/lessons",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            date: lesson.date,
+            teacher: lesson.teacher,
+            title: lesson.title,
+            theme: lesson.theme,
+            bibleStory: lesson.story,
+            verse: lesson.verse,
+            explanation: lesson.explanation,
+            questions: lesson.questions,
+            activity: lesson.activity,
+            prayer: lesson.prayer,
+            video: lesson.video,
+            songs: [],
+          }),
+        }
+      );
 
-    navigate("/lesson");
+      if (!response.ok) {
+        throw new Error("No se pudo guardar la lección");
+      }
+
+      alert("La lección fue guardada correctamente.");
+
+      setLesson({
+        date: "",
+        teacher: "",
+        title: "",
+        theme: "",
+        verse: "",
+        story: "",
+        explanation: "",
+        questions: ["", "", "", ""],
+        activity: "",
+        prayer: "",
+        video: "",
+      });
+    } catch (error) {
+      console.error("Error guardando la lección:", error);
+
+      alert("Hubo un error al guardar la lección.");
+    } finally {
+      setSaving(false);
+    }
   }
-  function generateLesson() {
-  setLesson({
-    title: "David y Goliat",
-    theme: "Confiamos en Dios",
-    verse: "La batalla es del Señor. 1 Samuel 17:47",
-    story:
-      "David era un joven pastor que confiaba en Dios. Cuando todos tenían miedo de Goliat, David recordó que Dios siempre estaba con él. Con una honda y cinco piedras, enfrentó al gigante y venció porque puso su confianza en el Señor.",
-    video: "",
-  });
-}
 
   return (
     <main className="lesson-page">
       <section className="lesson-card admin-card">
         <button
           className="back-button"
+          type="button"
           onClick={() => navigate("/")}
         >
           ← Volver al inicio
@@ -57,67 +166,123 @@ function Admin() {
         <h1>👩‍🏫 Panel de Maestros</h1>
 
         <p className="admin-description">
-          Crea la lección que se mostrará esta semana.
+          Agregue las lecciones de cada domingo del mes.
         </p>
 
-        <form
-          className="admin-form"
-          onSubmit={handleSubmit}
-        >
-          <label>
-            Título de la lección
-          </label>
+        <form className="admin-form" onSubmit={handleSubmit}>
+          <label>Fecha de la lección</label>
+
+          <input
+            type="date"
+            name="date"
+            value={lesson.date}
+            onChange={handleChange}
+            required
+          />
+
+          <label>Responsable de la lección</label>
+
+          <input
+            type="text"
+            name="teacher"
+            value={lesson.teacher}
+            onChange={handleChange}
+            placeholder="Escriba el nombre"
+            required
+          />
+
+          <label>Título de la lección</label>
 
           <input
             type="text"
             name="title"
             value={lesson.title}
             onChange={handleChange}
-            placeholder="Ejemplo: David y Goliat"
+            placeholder="Escriba el título de la lección"
             required
           />
 
-          <label>
-            Tema principal
-          </label>
+          <label>Tema principal</label>
 
           <input
             type="text"
             name="theme"
             value={lesson.theme}
             onChange={handleChange}
-            placeholder="Ejemplo: Confiamos en Dios"
+            placeholder="Escriba el tema principal"
             required
           />
 
-          <label>
-            Versículo
-          </label>
+          <button
+            type="button"
+            onClick={generateWithAI}
+            disabled={generating}
+          >
+            {generating ? "✨ Generando..." : "✨ Generar con IA"}
+          </button>
+
+          <label>Versículo</label>
 
           <textarea
             name="verse"
             value={lesson.verse}
             onChange={handleChange}
-            placeholder="Ejemplo: La batalla es del Señor. 1 Samuel 17:47"
+            placeholder="El versículo aparecerá aquí"
             required
           />
 
-          <label>
-            Historia para escuchar
-          </label>
+          <label>Historia bíblica</label>
 
           <textarea
             name="story"
             value={lesson.story}
             onChange={handleChange}
-            placeholder="Escribe aquí la historia que la aplicación leerá en voz alta"
-            rows="8"
+            placeholder="La historia bíblica aparecerá aquí"
             required
           />
 
-          <label>
-            Enlace del video de YouTube
-          </label>
+          <label>Explicación para los niños</label>
+
+          <textarea
+            name="explanation"
+            value={lesson.explanation}
+            onChange={handleChange}
+            placeholder="La explicación aparecerá aquí"
+          />
+
+          <label>Preguntas para los niños</label>
+
+          {lesson.questions.map((question, index) => (
+            <input
+              key={index}
+              type="text"
+              value={question}
+              onChange={(event) =>
+                handleQuestionChange(index, event.target.value)
+              }
+              placeholder={`Pregunta ${index + 1}`}
+            />
+          ))}
+
+          <label>Actividad o juego</label>
+
+          <textarea
+            name="activity"
+            value={lesson.activity}
+            onChange={handleChange}
+            placeholder="La actividad aparecerá aquí"
+          />
+
+          <label>Oración final</label>
+
+          <textarea
+            name="prayer"
+            value={lesson.prayer}
+            onChange={handleChange}
+            placeholder="La oración aparecerá aquí"
+          />
+
+          <label>Enlace del video de YouTube</label>
 
           <input
             type="url"
@@ -125,28 +290,18 @@ function Admin() {
             value={lesson.video}
             onChange={handleChange}
             placeholder="https://www.youtube.com/watch?v=..."
-            required
           />
 
           <button
-  type="button"
-  className="teacher-button"
-  onClick={generateLesson}
->
-  ✨ Generar lección con IA
-</button>
-
-<button
-  type="submit"
-  className="teacher-button"
->
-  💾 Guardar y publicar lección
-</button>
-
-</form>
-</section>
-</main>
-);
+            type="submit"
+            disabled={saving}
+          >
+            {saving ? "Guardando..." : "💾 Guardar lección"}
+          </button>
+        </form>
+      </section>
+    </main>
+  );
 }
 
 export default Admin;
