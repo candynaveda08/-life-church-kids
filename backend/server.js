@@ -162,6 +162,19 @@ app.post("/api/lessons", async (req, res) => {
 });
 
 const PORT = process.env.PORT || 5001;
+app.delete("/api/lessons/:id", async (req, res) => {
+  try {
+    const lesson = await Lesson.findByIdAndDelete(req.params.id);
+
+    if (!lesson) {
+      return res.status(404).json({ error: "Lección no encontrada" });
+    }
+
+    res.json({ message: "Lección eliminada correctamente" });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
 
 mongoose
   .connect(process.env.MONGO_URI)

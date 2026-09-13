@@ -11,7 +11,7 @@ function Lesson() {
     async function loadLessons() {
       try {
         const response = await fetch(
-          "http://localhost:5001/api/lessons"
+          "https://life-church-kids.onrender.com/api/lessons"
         );
 
         if (!response.ok) {
@@ -46,6 +46,35 @@ function Lesson() {
 
     return "";
   }
+  async function deleteLesson(id) {
+  const confirmed = window.confirm(
+    "¿Seguro que quieres eliminar esta lección?"
+  );
+
+  if (!confirmed) return;
+
+  try {
+    const response = await fetch(
+      `https://life-church-kids.onrender.com/api/lessons/${id}`,
+      {
+        method: "DELETE",
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("No se pudo eliminar la lección");
+    }
+
+    setLessons((previousLessons) =>
+      previousLessons.filter((lesson) => lesson._id !== id)
+    );
+
+    alert("Lección eliminada correctamente.");
+  } catch (error) {
+    console.error("Error eliminando la lección:", error);
+    alert("Hubo un error al eliminar la lección.");
+  }
+}
 
   return (
     <main className="lesson-page">
@@ -58,7 +87,13 @@ function Lesson() {
       </button>
 
       <section className="lesson-card">
-        <p className="lesson-label">📅 Lecciones del mes</p>
+        <p className="lesson-label">📖 Lección de la semana</p>
+        <button
+  type="button"
+  onClick={() => navigate("/presentation")}
+>
+  📺 Modo Presentación
+</button>
 
         {loading ? (
           <h2>Cargando lecciones...</h2>
@@ -71,6 +106,12 @@ function Lesson() {
               key={lesson._id}
             >
               <h1>{lesson.title}</h1>
+              <button
+  type="button"
+  onClick={() => deleteLesson(lesson._id)}
+>
+  🗑️ Eliminar lección
+</button>
 
               {lesson.fullLessonText && (
   <div style={{ whiteSpace: "pre-wrap" }}>

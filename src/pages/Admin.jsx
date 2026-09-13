@@ -49,7 +49,76 @@ function Admin() {
     return;
   }
 
-  
+  const getSection = (start, end) => {
+  const startIndex = fullLessonText.indexOf(start);
+
+  if (startIndex === -1) return "";
+
+  const contentStart = startIndex + start.length;
+
+  const endIndex = end
+    ? fullLessonText.indexOf(end, contentStart)
+    : fullLessonText.length;
+
+  return fullLessonText
+    .slice(contentStart, endIndex === -1 ? fullLessonText.length : endIndex)
+    .trim();
+};
+
+const title =
+  getSection("DESCUBRIMIENTO BÍBLICO", "OBJETIVO DE LA LECCIÓN")
+    .split("\n")
+    .filter(Boolean)
+    .pop() || "Lección de la semana";
+
+const objective = getSection(
+  "OBJETIVO DE LA LECCIÓN",
+  "VERSÍCULO PARA MEMORIZAR"
+);
+
+const verse = getSection(
+  "VERSÍCULO PARA MEMORIZAR",
+  "HISTORIA BÍBLICA"
+);
+
+const story = getSection(
+  "HISTORIA BÍBLICA",
+  "ACTIVIDAD"
+);
+
+const explanation = getSection(
+  "EXPLICACIÓN",
+  "PREGUNTAS"
+);
+const questionsText = getSection(
+  "PREGUNTAS",
+  "ACTIVIDAD"
+);
+
+const questions = questionsText
+  .split("\n")
+  .map((question) => question.trim())
+  .filter(Boolean)
+  .slice(0, 4);
+
+const activity = getSection(
+  "ACTIVIDAD",
+  "ORACIÓN"
+);
+
+const prayer = getSection("ORACIÓN");
+
+setLesson((previousLesson) => ({
+  ...previousLesson,
+  title,
+  theme: objective,
+  verse,
+  story,
+  activity,
+  prayer,
+  explanation,
+  questions,
+}));
 
   alert("Lección preparada. Ahora puede completar la fecha y el responsable.");
 }
@@ -64,7 +133,7 @@ function Admin() {
       setGenerating(true);
 
       const response = await fetch(
-        "http://localhost:5001/api/generate-lesson",
+        "https://life-church-kids.onrender.com/api/generate-lesson",
         {
           method: "POST",
           headers: {
@@ -113,7 +182,7 @@ function Admin() {
       setSaving(true);
 
       const response = await fetch(
-        "http://localhost:5001/api/lessons",
+        "https://life-church-kids.onrender.com/api/lessons",
         {
           method: "POST",
           headers: {
@@ -164,6 +233,7 @@ function Admin() {
       setSaving(false);
     }
   }
+  
 
   return (
     <main className="lesson-page">
