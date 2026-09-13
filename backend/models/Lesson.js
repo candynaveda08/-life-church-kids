@@ -21,6 +21,10 @@ const lessonSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+    fullLessonText: {
+  type: String,
+  default: "",
+},
 
     bibleStory: {
       type: String,

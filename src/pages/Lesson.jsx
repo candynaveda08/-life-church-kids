@@ -72,6 +72,12 @@ function Lesson() {
             >
               <h1>{lesson.title}</h1>
 
+              {lesson.fullLessonText && (
+  <div style={{ whiteSpace: "pre-wrap" }}>
+    {lesson.fullLessonText}
+  </div>
+)}
+
               {lesson.date && (
                 <p>
                   <strong>📅 Fecha:</strong> {lesson.date}

@@ -17,6 +17,7 @@ function Admin() {
     prayer: "",
     video: "",
   });
+  const [fullLessonText, setFullLessonText] = useState("");
 
   const [saving, setSaving] = useState(false);
   const [generating, setGenerating] = useState(false);
@@ -41,6 +42,17 @@ function Admin() {
       };
     });
   }
+
+  function processFullLesson() {
+  if (!fullLessonText.trim()) {
+    alert("Primero pegue la lección completa.");
+    return;
+  }
+
+  
+
+  alert("Lección preparada. Ahora puede completar la fecha y el responsable.");
+}
 
   async function generateWithAI() {
     if (!lesson.title || !lesson.theme) {
@@ -112,6 +124,7 @@ function Admin() {
             teacher: lesson.teacher,
             title: lesson.title,
             theme: lesson.theme,
+            fullLessonText: fullLessonText,
             bibleStory: lesson.story,
             verse: lesson.verse,
             explanation: lesson.explanation,
@@ -170,6 +183,23 @@ function Admin() {
         </p>
 
         <form className="admin-form" onSubmit={handleSubmit}>
+          <label>📋 Pegar lección completa</label>
+
+<textarea
+  value={fullLessonText}
+  onChange={(event) => setFullLessonText(event.target.value)}
+  placeholder="Pegue aquí la lección completa..."
+  rows={12}
+  
+/>
+
+   <button
+  type="button"
+  onClick={processFullLesson}
+>
+  ✨ Preparar lección
+</button>       
+          
           <label>Fecha de la lección</label>
 
           <input

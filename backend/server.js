@@ -129,6 +129,7 @@ app.post("/api/lessons", async (req, res) => {
       title: req.body.title,
 
       theme: req.body.theme || "",
+      fullLessonText: req.body.fullLessonText || "",
 
       bibleStory: req.body.bibleStory || "",
 
