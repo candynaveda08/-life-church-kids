@@ -52,16 +52,29 @@ app.post("/api/generate-lesson", async (req, res) => {
     const prompt = `
 Eres un maestro cristiano especializado en ministerio infantil.
 
-Prepara una lección bíblica completa, sencilla, alegre y apropiada para niños.
+Prepara una lección bíblica completa basada EXCLUSIVAMENTE en estos datos:
 
-Tema o versículo:
-${topic}
+TÍTULO DE LA LECCIÓN:
+${title}
+
+TEMA PRINCIPAL:
+${theme}
+
+REGLAS IMPORTANTES:
+- Respeta exactamente el título escrito por el maestro.
+- Respeta el tema principal escrito por el maestro.
+- Toda la historia bíblica debe corresponder al título.
+- NO cambies la historia por otra historia bíblica.
+- Si el título menciona un personaje bíblico, usa ese personaje.
+- El versículo, historia, explicación, preguntas, actividad y oración deben estar relacionados con esa misma lección.
+- Cada semana el título y el tema pueden ser diferentes. Usa siempre los datos recibidos actualmente.
+- Usa lenguaje sencillo y apropiado para niños.
 
 Devuelve SOLAMENTE JSON válido con esta estructura:
 
 {
   "title": "Título de la lección",
-  "theme": "Objetivo de la lección",
+  "theme": "Tema principal",
   "verse": "Versículo para memorizar",
   "bibleStory": "Historia bíblica explicada para niños",
   "explanation": "Explicación sencilla para los niños",
@@ -71,13 +84,13 @@ Devuelve SOLAMENTE JSON válido con esta estructura:
     "Pregunta 3",
     "Pregunta 4"
   ],
-  "activity": "Actividad o juego relacionado con la lección",
+  "activity": "Actividad o juego relacionado con la historia",
   "prayer": "Oración corta para finalizar"
 }
 `;
 
     const response = await fetch(
-      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash-lite:generateContent",
       {
         method: "POST",
         headers: {
