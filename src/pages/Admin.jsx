@@ -124,10 +124,11 @@ setLesson((previousLesson) => ({
 }
 
   async function generateWithAI() {
-    if (!lesson.title || !lesson.theme) {
-      alert("Primero escribe el título y el tema principal.");
-      return;
-    }
+    if (!lesson.title && !lesson.theme) {
+  alert("Escribe un tema o un versículo para preparar la clase.");
+  return;
+}
+    
 
     try {
       setGenerating(true);

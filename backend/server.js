@@ -4,16 +4,13 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import OpenAI from "openai";
+
 import Lesson from "./models/Lesson.js";
 
 dotenv.config();
 
 const app = express();
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
 
 app.use(cors());
 app.use(express.json());
@@ -44,62 +41,81 @@ app.post("/api/generate-lesson", async (req, res) => {
   try {
     const { title, theme } = req.body;
 
-    if (!title || !theme) {
+    const topic = theme || title;
+
+    if (!topic) {
       return res.status(400).json({
-        message: "El título y el tema son obligatorios",
+        message: "Escribe un tema o versículo para preparar la lección",
       });
     }
 
-    const response = await openai.responses.create({
-      model: "gpt-5.6-luna",
-
-      input: `
+    const prompt = `
 Eres un maestro cristiano especializado en ministerio infantil.
 
-Debes preparar una lección bíblica completa, sencilla,
-alegre y apropiada para niños.
+Prepara una lección bíblica completa, sencilla, alegre y apropiada para niños.
 
-Título:
-${title}
+Tema o versículo:
+${topic}
 
-Tema principal:
-${theme}
-
-La lección debe ser fácil de enseñar en una iglesia.
-
-Devuelve solamente JSON válido usando exactamente esta estructura:
+Devuelve SOLAMENTE JSON válido con esta estructura:
 
 {
-  "verse": "Versículo bíblico completo con su referencia",
-  "bibleStory": "Historia bíblica clara para niños, aproximadamente 250 a 400 palabras",
-  "explanation": "Explicación sencilla de lo que los niños deben aprender de esta historia",
+  "title": "Título de la lección",
+  "theme": "Objetivo de la lección",
+  "verse": "Versículo para memorizar",
+  "bibleStory": "Historia bíblica explicada para niños",
+  "explanation": "Explicación sencilla para los niños",
   "questions": [
     "Pregunta 1",
     "Pregunta 2",
     "Pregunta 3",
     "Pregunta 4"
   ],
-  "activity": "Una actividad o juego sencillo relacionado con la lección",
-  "prayer": "Una oración corta que los niños puedan repetir"
+  "activity": "Actividad o juego relacionado con la lección",
+  "prayer": "Oración corta para finalizar"
 }
+`;
 
-No uses Markdown.
-No agregues texto antes ni después del JSON.
-      `,
-    });
+    const response = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3.7-flash:generateContent",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-goog-api-key": process.env.GEMINI_API_KEY,
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              parts: [
+                {
+                  text: prompt,
+                },
+              ],
+            },
+          ],
+          generationConfig: {
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
 
-    const text = response.output_text.trim();
-
-    let generatedLesson;
-
-    try {
-      generatedLesson = JSON.parse(text);
-    } catch (parseError) {
-      console.error("ERROR LEYENDO JSON DE IA:", text);
-      throw parseError;
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(errorText);
     }
 
+    const data = await response.json();
+
+    const text =
+      data.candidates?.[0]?.content?.parts?.[0]?.text || "{}";
+
+    const generatedLesson = JSON.parse(text);
+
     res.json({
+      title: generatedLesson.title || "",
+      theme: generatedLesson.theme || "",
       verse: generatedLesson.verse || "",
       bibleStory: generatedLesson.bibleStory || "",
       explanation: generatedLesson.explanation || "",
@@ -110,7 +126,7 @@ No agregues texto antes ni después del JSON.
       prayer: generatedLesson.prayer || "",
     });
   } catch (error) {
-    console.error("ERROR GENERANDO CON IA:", error);
+    console.error("ERROR GENERANDO CON GEMINI:", error);
 
     res.status(500).json({
       message: "No se pudo generar la lección con IA",
