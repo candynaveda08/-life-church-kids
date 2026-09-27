@@ -38,7 +38,7 @@ function App() {
 
         <button
   className="menu-button"
-  onClick={() => (window.location.href = "/alabanzas")}
+  onClick={() => navigate("/alabanzas")}
 >
   🎵 Alabanzas
 </button>
@@ -47,9 +47,12 @@ function App() {
           📜 Versículo de la semana
         </button>
 
-        <button className="menu-button">
-          🎲 Preguntas y juegos
-        </button>
+        <button
+  className="menu-button"
+  onClick={() => navigate("/juegos")}
+>
+  🎲 Preguntas y juegos
+</button>
 
         <button className="menu-button">
           🙏 Oración
