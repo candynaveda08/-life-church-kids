@@ -27,6 +27,10 @@ function Presentation() {
 
   const slides = [
     {
+  title: "✨ Tema de la lección",
+  content: lesson.theme,
+},
+    {
       title: "📖 Versículo para memorizar",
       content: lesson.verse,
     },
