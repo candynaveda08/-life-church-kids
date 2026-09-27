@@ -36,9 +36,12 @@ function App() {
           🎥 Historias bíblicas
         </button>
 
-        <button className="menu-button">
-          🎵 Alabanzas
-        </button>
+        <button
+  className="menu-button"
+  onClick={() => (window.location.href = "/alabanzas")}
+>
+  🎵 Alabanzas
+</button>
 
         <button className="menu-button">
           📜 Versículo de la semana
