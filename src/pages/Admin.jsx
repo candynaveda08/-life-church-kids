@@ -305,11 +305,7 @@ function Admin() {
             >
               <button
                 type="button"
-                onClick={() =>
-                  alert(
-                    "En el próximo paso conectaremos aquí el cambio de clave."
-                  )
-                }
+                onClick={() => navigate("/registro")}
                 style={{
                   padding: "11px 16px",
                   border: "none",

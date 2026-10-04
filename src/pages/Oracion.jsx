@@ -14,7 +14,7 @@ function Oracion() {
       }}
     >
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/inicio")}
         style={{
           padding: "12px 20px",
           fontSize: "18px",

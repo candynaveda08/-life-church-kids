@@ -7,27 +7,41 @@ function Login() {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const USUARIO_CORRECTO = "pastora";
-  const CLAVE_CORRECTA = "Iglesia2026";
+  
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    if (!usuario.trim() || !password.trim()) {
-      alert("Escriba el usuario y la clave.");
-      return;
-    }
+  if (!usuario.trim() || !password.trim()) {
+    alert("Escriba el usuario y la clave.");
+    return;
+  }
 
-    if (
-      usuario === USUARIO_CORRECTO &&
-      password === CLAVE_CORRECTA
-    ) {
+  try {
+    const response = await fetch("https://life-church-kids.onrender.com/api/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: usuario.trim(),
+        password: password,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.success) {
       navigate("/inicio");
     } else {
-      alert("Usuario o clave incorrectos.");
+      alert(data.message || "Usuario o clave incorrectos.");
       setPassword("");
     }
-  };
+  } catch (error) {
+    console.error(error);
+    alert("No se pudo conectar con el servidor.");
+  }
+};
 
   return (
     <div

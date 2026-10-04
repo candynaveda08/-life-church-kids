@@ -54,7 +54,7 @@ function Juegos() {
   return (
     <main style={pagina}>
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/inicio")}
         style={botonVolver}
       >
         ← Volver al inicio

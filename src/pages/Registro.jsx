@@ -19,10 +19,7 @@ function Registro() {
       return;
     }
 
-    if (!email.trim()) {
-      alert("Escriba un correo electrónico.");
-      return;
-    }
+    
 
     if (!password.trim()) {
       alert("Escriba una clave.");
@@ -43,7 +40,7 @@ function Registro() {
       setSaving(true);
 
       const response = await fetch(
-        "http://localhost:5001/api/register",
+        "https://life-church-kids.onrender.com/api/register",
         {
           method: "POST",
           headers: {

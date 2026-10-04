@@ -35,7 +35,7 @@ function Alabanzas() {
       }}
     >
       <button
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/inicio")}
         style={{
           padding: "12px 25px",
           fontSize: "18px",

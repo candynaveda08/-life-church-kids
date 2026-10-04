@@ -283,10 +283,10 @@ app.post("/api/register", async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    if (!username || !email || !password) {
+    if (!username || !password) {
       return res.status(400).json({
         success: false,
-        message: "Usuario, correo y clave son obligatorios.",
+        message: "Usuario y clave son obligatorios.",
       });
     }
 
