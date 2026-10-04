@@ -81,7 +81,7 @@ function Lesson() {
       <button
         className="back-button"
         type="button"
-        onClick={() => navigate("/")}
+        onClick={() => navigate("/inicio")}
       >
         ← Volver al inicio
       </button>
@@ -116,6 +116,18 @@ function Lesson() {
 >
   {lesson.title}
 </h1>
+<button
+  type="button"
+  onClick={() => navigate(`/presentation?id=${lesson._id}`)}
+  style={{
+    fontSize: "18px",
+    padding: "10px 20px",
+    margin: "10px",
+    cursor: "pointer",
+  }}
+>
+  📺 Presentar esta lección
+</button>
               <button
   type="button"
   onClick={() => deleteLesson(lesson._id)}
