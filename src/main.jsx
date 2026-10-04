@@ -14,6 +14,7 @@ import Admin from "./pages/Admin";
 import Presentation from "./Presentation";
 import Alabanzas from "./pages/Alabanzas";
 import Juegos from "./pages/Juegos";
+import Oracion from "./pages/Oracion";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -25,6 +26,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/presentation" element={<Presentation />} />
         <Route path="/alabanzas" element={<Alabanzas />} />
         <Route path="/juegos" element={<Juegos />} />
+        <Route path="/oracion" element={<Oracion />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

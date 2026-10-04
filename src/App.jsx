@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 import logo from "./assets/life-kids-logo.png";
 
+
 function App() {
   const navigate = useNavigate();
 
@@ -54,9 +55,12 @@ function App() {
   🎲 Preguntas y juegos
 </button>
 
-        <button className="menu-button">
-          🙏 Oración
-        </button>
+        <button
+  className="menu-button"
+  onClick={() => navigate("/oracion")}
+>
+  🙏 Oración
+</button>
       </section>
 
       <footer>
