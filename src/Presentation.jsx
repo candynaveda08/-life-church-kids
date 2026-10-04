@@ -143,6 +143,23 @@ function Presentation() {
           Siguiente ➡️
         </button>
       </div>
+      <button
+  type="button"
+  onClick={() => window.location.href = "/inicio"}
+  style={{
+    marginTop: "25px",
+    fontSize: "20px",
+    padding: "12px 25px",
+    cursor: "pointer",
+    backgroundColor: "#c62828",
+    color: "white",
+    border: "none",
+    borderRadius: "10px",
+    fontWeight: "bold",
+  }}
+>
+  🏠 Volver al inicio
+</button>
 
       <p
         style={{

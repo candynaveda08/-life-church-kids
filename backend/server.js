@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import Lesson from "./models/Lesson.js";
+import User from "./models/User.js";
 
 dotenv.config();
 
@@ -206,6 +207,124 @@ app.delete("/api/lessons/:id", async (req, res) => {
 });
 
 mongoose
+  
+  // LOGIN
+app.post("/api/login", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Usuario incorrecto",
+      });
+    }
+
+    if (user.password !== password) {
+      return res.status(401).json({
+        success: false,
+        message: "Clave incorrecta",
+      });
+    }
+
+    res.json({
+      success: true,
+      message: "Acceso correcto",
+    });
+  } catch {
+    res.status(500).json({
+      success: false,
+      message: "Error en el servidor",
+    });
+  }
+});
+
+// CAMBIAR CLAVE
+app.post("/api/change-password", async (req, res) => {
+  try {
+    const { username, currentPassword, newPassword } = req.body;
+
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "Usuario no encontrado",
+      });
+    }
+
+    if (user.password !== currentPassword) {
+      return res.status(401).json({
+        success: false,
+        message: "La clave actual es incorrecta",
+      });
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Clave cambiada correctamente",
+    });
+  } catch {
+    res.status(500).json({
+      success: false,
+      message: "Error en el servidor",
+    });
+  }
+});
+
+// GUARDAR O ACTUALIZAR CUENTA
+app.post("/api/register", async (req, res) => {
+  console.log("ENTRO A /api/register");
+  try {
+    const { username, email, password } = req.body;
+
+    if (!username || !email || !password) {
+      return res.status(400).json({
+        success: false,
+        message: "Usuario, correo y clave son obligatorios.",
+      });
+    }
+
+    let user = await User.findOne({ username });
+
+    if (user) {
+      user.email = email;
+      user.password = password;
+      await user.save();
+
+      return res.json({
+        success: true,
+        message: "Cuenta actualizada correctamente.",
+      });
+    }
+
+    user = new User({
+      username,
+      email,
+      password,
+    });
+
+    await user.save();
+
+    res.json({
+      success: true,
+      message: "Cuenta guardada correctamente.",
+    });
+  } catch (error) {
+    console.error("Error guardando cuenta:", error);
+
+    res.status(500).json({
+      success: false,
+      message: "Error en el servidor.",
+    });
+  }
+});
+  mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB conectado");

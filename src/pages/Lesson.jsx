@@ -105,7 +105,17 @@ function Lesson() {
               className="lesson-section"
               key={lesson._id}
             >
-              <h1>{lesson.title}</h1>
+            <h1
+  style={{
+    fontSize: "42px",
+    lineHeight: "1.2",
+    margin: "20px 0",
+    textAlign: "center",
+    overflowWrap: "break-word",
+  }}
+>
+  {lesson.title}
+</h1>
               <button
   type="button"
   onClick={() => deleteLesson(lesson._id)}
@@ -114,7 +124,19 @@ function Lesson() {
 </button>
 
               {lesson.fullLessonText && (
-  <div style={{ whiteSpace: "pre-wrap" }}>
+  <div
+    style={{
+      whiteSpace: "pre-wrap",
+      fontSize: "22px",
+      lineHeight: "1.6",
+      color: "#333",
+      textAlign: "left",
+      margin: "20px 0",
+      padding: "20px",
+      background: "#fffaf0",
+      borderRadius: "14px",
+    }}
+  >
     {lesson.fullLessonText}
   </div>
 )}

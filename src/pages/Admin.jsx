@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 function Admin() {
   const navigate = useNavigate();
 
+  const [showAccount, setShowAccount] = useState(false);
+
   const [lesson, setLesson] = useState({
     date: "",
     teacher: "",
@@ -17,8 +19,8 @@ function Admin() {
     prayer: "",
     video: "",
   });
-  const [fullLessonText, setFullLessonText] = useState("");
 
+  const [fullLessonText, setFullLessonText] = useState("");
   const [saving, setSaving] = useState(false);
   const [generating, setGenerating] = useState(false);
 
@@ -49,86 +51,71 @@ function Admin() {
     return;
   }
 
+  const text = fullLessonText;
+
   const getSection = (start, end) => {
-  const startIndex = fullLessonText.indexOf(start);
+    const startIndex = text.indexOf(start);
 
-  if (startIndex === -1) return "";
+    if (startIndex === -1) return "";
 
-  const contentStart = startIndex + start.length;
+    const contentStart = startIndex + start.length;
 
-  const endIndex = end
-    ? fullLessonText.indexOf(end, contentStart)
-    : fullLessonText.length;
+    if (!end) {
+      return text.slice(contentStart).trim();
+    }
 
-  return fullLessonText
-    .slice(contentStart, endIndex === -1 ? fullLessonText.length : endIndex)
-    .trim();
-};
+    const endIndex = text.indexOf(end, contentStart);
 
-const title =
-  getSection("DESCUBRIMIENTO BÍBLICO", "OBJETIVO DE LA LECCIÓN")
+    if (endIndex === -1) {
+      return text.slice(contentStart).trim();
+    }
+
+    return text.slice(contentStart, endIndex).trim();
+  };
+
+  const title = getSection("Título:", "Tema principal:");
+  const theme = getSection("Tema principal:", "Versículo:");
+  const verse = getSection("Versículo:", "Historia bíblica:");
+  const story = getSection("Historia bíblica:", "Explicación:");
+  const explanation = getSection("Explicación:", "Preguntas:");
+  const questionsText = getSection("Preguntas:", "Actividad:");
+  const activity = getSection("Actividad:", "Oración:");
+  const prayer = getSection("Oración:");
+
+  const questions = questionsText
     .split("\n")
-    .filter(Boolean)
-    .pop() || "Lección de la semana";
+    .map((question) =>
+      question.replace(/^\s*\d+[.)-]?\s*/, "").trim()
+    )
+    .filter((question) => question !== "")
+    .slice(0, 4);
 
-const objective = getSection(
-  "OBJETIVO DE LA LECCIÓN",
-  "VERSÍCULO PARA MEMORIZAR"
-);
+  while (questions.length < 4) {
+    questions.push("");
+  }
 
-const verse = getSection(
-  "VERSÍCULO PARA MEMORIZAR",
-  "HISTORIA BÍBLICA"
-);
+  setLesson((previousLesson) => ({
+    ...previousLesson,
+    title,
+    theme,
+    verse,
+    story,
+    explanation,
+    questions,
+    activity,
+    prayer,
+  }));
 
-const story = getSection(
-  "HISTORIA BÍBLICA",
-  "ACTIVIDAD"
-);
-
-const explanation = getSection(
-  "EXPLICACIÓN",
-  "PREGUNTAS"
-);
-const questionsText = getSection(
-  "PREGUNTAS",
-  "ACTIVIDAD"
-);
-
-const questions = questionsText
-  .split("\n")
-  .map((question) => question.trim())
-  .filter(Boolean)
-  .slice(0, 4);
-
-const activity = getSection(
-  "ACTIVIDAD",
-  "ORACIÓN"
-);
-
-const prayer = getSection("ORACIÓN");
-
-setLesson((previousLesson) => ({
-  ...previousLesson,
-  title,
-  theme: objective,
-  verse,
-  story,
-  activity,
-  prayer,
-  explanation,
-  questions,
-}));
-
-  alert("Lección preparada. Ahora puede completar la fecha y el responsable.");
+  alert(
+    "Lección preparada. Ahora puede completar la fecha y el responsable."
+  );
 }
 
   async function generateWithAI() {
     if (!lesson.title && !lesson.theme) {
-  alert("Escribe un tema o un versículo para preparar la clase.");
-  return;
-}
-    
+      alert("Escribe un tema o un versículo para preparar la clase.");
+      return;
+    }
 
     try {
       setGenerating(true);
@@ -184,7 +171,6 @@ setLesson((previousLesson) => ({
 
       const response = await fetch(
         "https://life-church-kids.onrender.com/api/lessons",
-
         {
           method: "POST",
           headers: {
@@ -195,7 +181,7 @@ setLesson((previousLesson) => ({
             teacher: lesson.teacher,
             title: lesson.title,
             theme: lesson.theme,
-            fullLessonText: fullLessonText,
+            fullLessonText,
             bibleStory: lesson.story,
             verse: lesson.verse,
             explanation: lesson.explanation,
@@ -227,26 +213,133 @@ setLesson((previousLesson) => ({
         prayer: "",
         video: "",
       });
+
+      setFullLessonText("");
     } catch (error) {
       console.error("Error guardando la lección:", error);
-
       alert("Hubo un error al guardar la lección.");
     } finally {
       setSaving(false);
     }
   }
-  
 
   return (
     <main className="lesson-page">
-      <section className="lesson-card admin-card">
-        <button
-          className="back-button"
-          type="button"
-          onClick={() => navigate("/")}
+      <section
+        className="lesson-card admin-card"
+        style={{
+          position: "relative",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            gap: "15px",
+            marginBottom: "15px",
+          }}
         >
-          ← Volver al inicio
-        </button>
+          <button
+            className="back-button"
+            type="button"
+            onClick={() => navigate("/inicio")}
+          >
+            ← Volver al inicio
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setShowAccount((previous) => !previous)}
+            style={{
+              background: "#ffffff",
+              border: "2px solid #c62828",
+              color: "#c62828",
+              borderRadius: "12px",
+              padding: "10px 16px",
+              fontSize: "16px",
+              fontWeight: "bold",
+              cursor: "pointer",
+            }}
+          >
+            ⚙️ Mi cuenta
+          </button>
+        </div>
+
+        {showAccount && (
+          <div
+            style={{
+              background: "#fffaf5",
+              border: "1px solid #e0d6cc",
+              borderRadius: "16px",
+              padding: "18px",
+              marginBottom: "25px",
+              boxShadow: "0 4px 15px rgba(0,0,0,0.08)",
+            }}
+          >
+            <h3
+              style={{
+                marginTop: "0",
+                marginBottom: "8px",
+              }}
+            >
+              ⚙️ Mi cuenta
+            </h3>
+
+            <p
+              style={{
+                marginTop: "0",
+                color: "#666",
+              }}
+            >
+              Aquí podrá administrar sus datos de acceso.
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                gap: "10px",
+                flexWrap: "wrap",
+                justifyContent: "center",
+              }}
+            >
+              <button
+                type="button"
+                onClick={() =>
+                  alert(
+                    "En el próximo paso conectaremos aquí el cambio de clave."
+                  )
+                }
+                style={{
+                  padding: "11px 16px",
+                  border: "none",
+                  borderRadius: "10px",
+                  background: "#c62828",
+                  color: "white",
+                  fontWeight: "bold",
+                  cursor: "pointer",
+                }}
+              >
+                🔑 Cambiar clave
+              </button>
+
+              <button
+                type="button"
+                onClick={() => navigate("/registro")}
+                style={{
+                  padding: "11px 16px",
+                  border: "1px solid #999",
+                  borderRadius: "10px",
+                  background: "white",
+                  cursor: "pointer",
+                  fontWeight: "bold",
+                }}
+              >
+                📧 Configurar correo
+              </button>
+            </div>
+          </div>
+        )}
 
         <h1>👩‍🏫 Panel de Maestros</h1>
 
@@ -257,21 +350,17 @@ setLesson((previousLesson) => ({
         <form className="admin-form" onSubmit={handleSubmit}>
           <label>📋 Pegar lección completa</label>
 
-<textarea
-  value={fullLessonText}
-  onChange={(event) => setFullLessonText(event.target.value)}
-  placeholder="Pegue aquí la lección completa..."
-  rows={12}
-  
-/>
+          <textarea
+            value={fullLessonText}
+            onChange={(event) => setFullLessonText(event.target.value)}
+            placeholder="Pegue aquí la lección completa..."
+            rows={12}
+          />
 
-   <button
-  type="button"
-  onClick={processFullLesson}
->
-  ✨ Preparar lección
-</button>       
-          
+          <button type="button" onClick={processFullLesson}>
+            ✨ Preparar lección
+          </button>
+
           <label>Fecha de la lección</label>
 
           <input
@@ -394,10 +483,7 @@ setLesson((previousLesson) => ({
             placeholder="https://www.youtube.com/watch?v=..."
           />
 
-          <button
-            type="submit"
-            disabled={saving}
-          >
+          <button type="submit" disabled={saving}>
             {saving ? "Guardando..." : "💾 Guardar lección"}
           </button>
         </form>
