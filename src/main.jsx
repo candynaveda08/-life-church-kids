@@ -19,6 +19,12 @@ import Juegos from "./pages/Juegos";
 import Oracion from "./pages/Oracion";
 import Login from "./pages/Login";
 import Registro from "./pages/Registro";
+import Normas from "./pages/Normas";
+import Colorear from "./pages/Colorear";
+
+
+
+
 
 
 createRoot(document.getElementById("root")).render(
@@ -35,6 +41,10 @@ createRoot(document.getElementById("root")).render(
         <Route path="/oracion" element={<Oracion />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
+        <Route path="/normas" element={<Normas />} />
+        <Route path="/colorear" element={<Colorear />} />
+    
+        
       </Routes>
     </BrowserRouter>
   </StrictMode>

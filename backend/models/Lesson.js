@@ -61,6 +61,11 @@ const lessonSchema = new mongoose.Schema(
       default: "",
     },
 
+    dibujo: {
+  type: String,
+  default: "",
+},
+
     songs: {
       type: [String],
       default: [],

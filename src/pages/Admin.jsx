@@ -18,6 +18,7 @@ function Admin() {
     activity: "",
     prayer: "",
     video: "",
+    dibujo: "",
   });
 
   const [fullLessonText, setFullLessonText] = useState("");
@@ -167,7 +168,32 @@ function Admin() {
     event.preventDefault();
 
     try {
-      setSaving(true);
+      
+      let dibujoGenerado = lesson.dibujo || "";
+
+if (!dibujoGenerado) {
+  const respuestaDibujo = await fetch(
+    "https://life-church-kids.onrender.com/api/generate-coloring",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        title: lesson.title,
+        theme: lesson.theme,
+        bibleStory: lesson.story,
+      }),
+    }
+  );
+
+  if (!respuestaDibujo.ok) {
+    throw new Error("No se pudo generar el dibujo bíblico.");
+  }
+
+  const datosDibujo = await respuestaDibujo.json();
+  dibujoGenerado = datosDibujo.dibujo;
+}
 
       const response = await fetch(
         "https://life-church-kids.onrender.com/api/lessons",
@@ -190,6 +216,7 @@ function Admin() {
             prayer: lesson.prayer,
             video: lesson.video,
             songs: [],
+            dibujo: dibujoGenerado,
           }),
         }
       );
@@ -345,6 +372,35 @@ function Admin() {
 
         <form className="admin-form" onSubmit={handleSubmit}>
           <label>📋 Pegar lección completa</label>
+          <div style={{ marginBottom: "20px" }}>
+  <label>🖍️ Dibujo para colorear de la lección</label>
+
+  <input
+    type="file"
+    accept="image/png,image/jpeg,image/webp"
+    onChange={(event) => {
+      const archivo = event.target.files?.[0];
+
+      if (!archivo) return;
+
+      if (archivo.size > 2 * 1024 * 1024) {
+        alert("El dibujo debe pesar menos de 2 MB.");
+        return;
+      }
+
+      const lector = new FileReader();
+
+      lector.onload = () => {
+        setLesson((anterior) => ({
+          ...anterior,
+          dibujo: lector.result,
+        }));
+      };
+
+      lector.readAsDataURL(archivo);
+    }}
+  />
+</div>
 
           <textarea
             value={fullLessonText}

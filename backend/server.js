@@ -4,12 +4,15 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
+import OpenAI from "openai";
 
 import Lesson from "./models/Lesson.js";
 import User from "./models/User.js";
 
 dotenv.config();
-
+const openai = process.env.OPENAI_API_KEY
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  : null;
 const app = express();
 
 
@@ -147,8 +150,57 @@ Devuelve SOLAMENTE JSON válido con esta estructura:
     });
   }
 });
+// Generar un dibujo bíblico para colorear
+app.post("/api/generate-coloring", async (req, res) => {
+  try {
+    const { title, theme, bibleStory } = req.body;
+
+    if (!openai) {
+      return res.status(503).json({
+        message: "Falta configurar OPENAI_API_KEY en el servidor.",
+      });
+    }
+
+    const tema = bibleStory || theme || title;
+
+    if (!tema) {
+      return res.status(400).json({
+        message: "Escribe el tema de la lección.",
+      });
+    }
+
+    const resultado = await openai.images.generate({
+      model: "gpt-image-1",
+      prompt: `
+        Crea una página para colorear para niños de una iglesia cristiana.
+        Historia bíblica: ${tema}.
+        Dibujo educativo, líneas negras gruesas,
+        fondo completamente blanco, sin colores,
+        sin sombras, sin letras y sin texto.
+        Diseño sencillo para niños de 4 a 10 años.
+      `,
+      size: "1024x1024",
+    });
+
+    const imagen = resultado.data?.[0]?.b64_json;
+
+    if (!imagen) {
+      throw new Error("No se recibió el dibujo.");
+    }
+
+    res.json({
+      dibujo: `data:image/png;base64,${imagen}`,
+    });
+  } catch (error) {
+    console.error("Error generando dibujo:", error);
+    res.status(500).json({
+      message: "No se pudo generar el dibujo.",
+    });
+  }
+});
 
 // Guardar una nueva lección
+
 app.post("/api/lessons", async (req, res) => {
   try {
     console.log("Datos recibidos:", req.body);
@@ -176,6 +228,8 @@ app.post("/api/lessons", async (req, res) => {
       video: req.body.video || "",
 
       songs: req.body.songs || [],
+
+      dibujo: req.body.dibujo || "",
     });
 
     const savedLesson = await newLesson.save();

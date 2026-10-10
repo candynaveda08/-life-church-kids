@@ -52,16 +52,31 @@ function App() {
   className="menu-button"
   onClick={() => navigate("/juegos")}
 >
-  🎲 Preguntas y juegos
+  🎨 Actividades
 </button>
 
         <button
   className="menu-button"
   onClick={() => navigate("/oracion")}
 >
-  🙏 Oración
+  🙏 Credo
+</button>
+    <button
+  className="menu-button"
+  onClick={() => navigate("/normas")}
+>
+  📋 Normas del Salón
+</button>
+    <button
+  className="menu-button"
+  onClick={() => navigate("/colorear")}
+>
+  🖍️ Página para Colorear
 </button>
       </section>
+      
+      
+      
 
       <footer>
         <button

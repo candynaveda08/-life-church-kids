@@ -5,16 +5,40 @@ function Alabanzas() {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
 
+  // Las tres alabanzas fijas de Life Church Kids
+  const canciones = [
+    {
+      nombre: "Grande y Fuerte",
+      url: "https://www.youtube.com/watch?v=j5FCuivqp28",
+    },
+    {
+      nombre: "Increíble",
+     url: "https://youtu.be/6UzXrf3U9lA", 
+    },
+    {
+      nombre: "Todo lo has cambiado",
+      url: "https://youtu.be/6BFGT8QbfIU",
+    },
+  ];
+
+  const abrirYouTube = (texto) => {
+    const busquedaYouTube = encodeURIComponent(texto);
+
+    window.open(
+      `https://www.youtube.com/results?search_query=${busquedaYouTube}`,
+      "_blank",
+      "noopener,noreferrer"
+    );
+  };
+
   const buscarEnYouTube = () => {
     if (!busqueda.trim()) {
       alert("Escribe el nombre de una alabanza.");
       return;
     }
 
-    const texto = encodeURIComponent(busqueda + " alabanza cristiana para niños");
-    window.open(
-      `https://www.youtube.com/results?search_query=${texto}`,
-      "_blank"
+    abrirYouTube(
+      busqueda + " alabanza cristiana para niños"
     );
   };
 
@@ -54,11 +78,55 @@ function Alabanzas() {
         Alabanzas para Life Church Kids
       </p>
 
-      <h2>🎶 Música para los niños</h2>
+      <h2>🎶 Nuestras alabanzas</h2>
 
       <p style={{ fontSize: "18px" }}>
-        Escribe el nombre de la alabanza que deseas buscar.
+        Selecciona una canción para abrirla en YouTube.
       </p>
+
+      <div
+        style={{
+          maxWidth: "650px",
+          margin: "25px auto",
+        }}
+      >
+        {canciones.map((cancion, index) => (
+          <div
+            key={cancion.nombre}
+            style={{
+              background: "white",
+              padding: "25px",
+              marginBottom: "20px",
+              borderRadius: "20px",
+              boxShadow: "0 4px 12px rgba(0,0,0,0.12)",
+            }}
+          >
+            <h2>
+              🎵 {index + 1}. {cancion.nombre}
+            </h2>
+
+            <button
+              onClick={() =>
+  cancion.url
+    ? window.open(cancion.url, "_blank", "noopener,noreferrer")
+    : abrirYouTube(cancion.busqueda)
+}
+              style={{
+                background: "#e53935",
+                color: "white",
+                border: "none",
+                padding: "15px 25px",
+                fontSize: "20px",
+                fontWeight: "bold",
+                borderRadius: "12px",
+                cursor: "pointer",
+              }}
+            >
+              ▶️ Buscar en YouTube
+            </button>
+          </div>
+        ))}
+      </div>
 
       <div
         style={{
@@ -69,7 +137,7 @@ function Alabanzas() {
           borderRadius: "20px",
         }}
       >
-        <h2>🔎 Buscar una alabanza</h2>
+        <h2>🔎 Buscar otra alabanza</h2>
 
         <input
           type="text"
@@ -104,7 +172,8 @@ function Alabanzas() {
       </div>
 
       <p style={{ fontSize: "18px" }}>
-        La maestra puede buscar la alabanza que quiera usar durante la clase.
+        La maestra también puede buscar otras alabanzas
+        para usar durante la clase.
       </p>
     </main>
   );
