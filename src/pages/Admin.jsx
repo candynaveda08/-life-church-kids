@@ -171,7 +171,7 @@ function Admin() {
       
       let dibujoGenerado = lesson.dibujo || "";
 
-if (!dibujoGenerado) {
+  if (!dibujoGenerado && import.meta.env.VITE_GENERAR_DIBUJO === "true") {
   const respuestaDibujo = await fetch(
     "https://life-church-kids.onrender.com/api/generate-coloring",
     {
