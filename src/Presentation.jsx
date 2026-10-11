@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function Presentation() {
+    const navigate = useNavigate();
   const [lesson, setLesson] = useState(null);
   const [slideIndex, setSlideIndex] = useState(0);
 
@@ -145,7 +147,7 @@ function Presentation() {
       </div>
       <button
   type="button"
-  onClick={() => window.location.assign("/inicio")}
+  onClick={() => navigate("/inicio")}
   style={{
     marginTop: "25px",
     fontSize: "20px",
