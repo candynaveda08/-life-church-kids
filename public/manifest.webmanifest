@@ -9,8 +9,8 @@
   "theme_color": "#ffffff",
   "icons": [
     {
-      "src": "/life-kids-icon.png",
-      "sizes": "512x647",
+      "src": "/lifechurch.png",
+      "sizes": "1254x1254",
       "type": "image/png",
       "purpose": "any"
     }
