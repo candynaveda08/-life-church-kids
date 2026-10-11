@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
 
+
 import Lesson from "./models/Lesson.js";
 import User from "./models/User.js";
 
@@ -349,7 +350,9 @@ app.post("/api/register", async (req, res) => {
     if (user) {
       user.email = email;
       user.password = password;
+      user.recoveryCodeHash = null;
       await user.save();
+
 
       return res.json({
         success: true,

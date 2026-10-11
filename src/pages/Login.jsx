@@ -5,6 +5,7 @@ import logo from "../assets/life-kids-logo.png";
 function Login() {
   const [usuario, setUsuario] = useState("");
   const [password, setPassword] = useState("");
+  const [mostrarClave, setMostrarClave] = useState(false);
   const navigate = useNavigate();
 
   
@@ -113,7 +114,7 @@ function Login() {
           />
 
           <input
-            type="password"
+            type={mostrarClave ? "text" : "password"}
             placeholder="Clave"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -127,6 +128,21 @@ function Login() {
               boxSizing: "border-box",
             }}
           />
+
+          <button
+  type="button"
+  onClick={() => setMostrarClave(!mostrarClave)}
+  style={{
+    background: "transparent",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "16px",
+    marginBottom: "15px",
+  }}
+>
+  {mostrarClave ? "🙈 Ocultar contraseña" : "👁️ Mostrar contraseña"}
+</button>
+          
 
           <button
             type="submit"
@@ -144,6 +160,22 @@ function Login() {
           >
             Entrar
           </button>
+          <button
+  type="button"
+  onClick={() =>
+    alert("Para recuperar tu contraseña, comunícate con la persona encargada de la iglesia.")
+  }
+  style={{
+    background: "transparent",
+    border: "none",
+    color: "#2563eb",
+    cursor: "pointer",
+    marginTop: "15px",
+    fontSize: "15px",
+  }}
+>
+  🔑 ¿Olvidaste tu contraseña?
+</button>
         </form>
       </div>
     </div>
