@@ -1,0 +1,18 @@
+{
+  "name": "Life Church Kids",
+  "short_name": "Life Kids",
+  "description": "Aplicación de enseñanza bíblica para niños",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "/life-kids-logo.png",
+      "sizes": "any",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
