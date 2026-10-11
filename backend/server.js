@@ -173,12 +173,13 @@ app.post("/api/generate-coloring", async (req, res) => {
     const resultado = await openai.images.generate({
       model: "gpt-image-1",
       prompt: `
-        Crea una página para colorear para niños de una iglesia cristiana.
-        Historia bíblica: ${tema}.
-        Dibujo educativo, líneas negras gruesas,
-        fondo completamente blanco, sin colores,
-        sin sombras, sin letras y sin texto.
-        Diseño sencillo para niños de 4 a 10 años.
+        Crea una ilustración bíblica infantil a todo color.
+Historia bíblica: ${tema}.
+La imagen debe representar claramente los personajes
+y los acontecimientos principales de esta historia.
+Estilo de libro ilustrado para niños de 4 a 10 años.
+Colores vivos, personajes amigables y escenario detallado.
+Imagen horizontal o cuadrada, sin letras ni texto.
       `,
       size: "1024x1024",
     });
@@ -195,7 +196,7 @@ app.post("/api/generate-coloring", async (req, res) => {
   } catch (error) {
     console.error("Error generando dibujo:", error);
     res.status(500).json({
-      message: "No se pudo generar el dibujo.",
+      message: error.message || "No se pudo generar el dibujo.",
     });
   }
 });

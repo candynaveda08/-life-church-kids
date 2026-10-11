@@ -105,6 +105,21 @@ marginBottom: "30px",
         {currentSlide.title}
       </h2>
 
+      {currentSlide.title.includes("Historia bíblica") && lesson.dibujo && (
+  <img
+    src={lesson.dibujo}
+    alt={lesson.title}
+    style={{
+      width: "100%",
+      maxWidth: "650px",
+      maxHeight: "350px",
+      objectFit: "contain",
+      borderRadius: "20px",
+      marginBottom: "20px",
+    }}
+  />
+)}
+
       <p
         style={{
           fontSize: "40px",
