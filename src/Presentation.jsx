@@ -87,8 +87,10 @@ function Presentation() {
     >
       <h1
         style={{
-          fontSize: "72px",
-          marginBottom: "30px",
+          fontSize: "clamp(28px, 4vw, 48px)",
+lineHeight: 1.3,
+overflowWrap: "anywhere",
+marginBottom: "30px",
         }}
       >
         {lesson.title}
