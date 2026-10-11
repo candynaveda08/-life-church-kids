@@ -10,7 +10,7 @@
   "icons": [
     {
       "src": "/life-kids-icon.png",
-      "sizes": "1320x1668",
+      "sizes": "512x647",
       "type": "image/png",
       "purpose": "any"
     }
