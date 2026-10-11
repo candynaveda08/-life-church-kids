@@ -145,7 +145,7 @@ function Presentation() {
       </div>
       <button
   type="button"
-  onClick={() => window.location.href = "/inicio"}
+  onClick={() => window.location.assign("/inicio")}
   style={{
     marginTop: "25px",
     fontSize: "20px",
