@@ -232,6 +232,7 @@ app.post("/api/lessons", async (req, res) => {
       songs: req.body.songs || [],
 
       dibujo: req.body.dibujo || "",
+      imagenColor: req.body.imagenColor || "",
     });
 
     const savedLesson = await newLesson.save();

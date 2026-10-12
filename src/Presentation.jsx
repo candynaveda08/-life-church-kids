@@ -12,9 +12,15 @@ function Presentation() {
         const response = await fetch("https://life-church-kids.onrender.com/api/lessons");
         const data = await response.json();
 
-        if (data.length > 0) {
-          setLesson(data[data.length - 1]);
-        }
+       if (data.length > 0) {
+  const id = new URLSearchParams(window.location.search).get("id");
+
+  const leccionSeleccionada = id
+    ? data.find((item) => item._id === id)
+    : data[data.length - 1];
+
+  setLesson(leccionSeleccionada || null);
+} 
       } catch (error) {
         console.error("Error cargando la lección:", error);
       }
@@ -39,6 +45,7 @@ function Presentation() {
     {
       title: "📖 Historia bíblica",
       content: lesson.bibleStory,
+      imagen: lesson.imagenColor,
     },
     {
       title: "💡 Explicación",
@@ -52,6 +59,12 @@ function Presentation() {
       title: "🎨 Actividad",
       content: lesson.activity,
     },
+    {
+  title: "🖍️ Dibujo para colorear",
+  content: "¡Vamos a colorear nuestra historia bíblica!",
+  imagen: lesson.dibujo,
+  imprimir: true,
+},
     {
       title: "🙏 Oración",
       content: lesson.prayer,
@@ -130,6 +143,57 @@ marginBottom: "30px",
       >
         {currentSlide.content || "Contenido no disponible"}
       </p>
+
+      {currentSlide.imagen && (
+  <img
+    src={currentSlide.imagen}
+    alt="Ilustración de la historia bíblica"
+    style={{
+      width: "100%",
+      maxWidth: "650px",
+      maxHeight: "400px",
+      objectFit: "contain",
+      borderRadius: "15px",
+      marginTop: "20px",
+    }}
+  />
+)} 
+      {currentSlide.imprimir && currentSlide.imagen && (
+  <button
+    onClick={() => {
+      const ventana = window.open("", "_blank");
+
+      if (!ventana) {
+        alert("Permite las ventanas emergentes para imprimir.");
+        return;
+      }
+
+      const imagen = document.createElement("img");
+      imagen.src = currentSlide.imagen;
+      imagen.style.width = "100%";
+
+      ventana.document.body.appendChild(imagen);
+      ventana.document.close();
+
+      imagen.onload = () => {
+        ventana.focus();
+        ventana.print();
+      };
+    }}
+    style={{
+      padding: "15px 30px",
+      backgroundColor: "#4CAF50",
+      color: "white",
+      border: "none",
+      borderRadius: "12px",
+      fontSize: "20px",
+      cursor: "pointer",
+      marginTop: "20px",
+    }}
+  >
+    🖨️ Imprimir dibujo
+  </button>
+)}
 
       <div
         style={{

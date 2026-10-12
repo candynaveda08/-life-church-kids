@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { buscarImagenesBiblicas } from "../bibliotecaBiblica";
 
 function Admin() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ function Admin() {
     prayer: "",
     video: "",
     dibujo: "",
+    imagenColor: "",
   });
 
   const [fullLessonText, setFullLessonText] = useState("");
@@ -168,8 +170,13 @@ function Admin() {
     event.preventDefault();
 
     try {
+      const imagenesBiblicas = buscarImagenesBiblicas(
+  lesson.title,
+  lesson.theme,
+  lesson.story
+);
       
-      let dibujoGenerado = lesson.dibujo || "";
+      let dibujoGenerado = lesson.dibujo || imagenesBiblicas.dibujo;
 
   if (!dibujoGenerado && import.meta.env.VITE_GENERAR_DIBUJO === "true") {
   const respuestaDibujo = await fetch(
@@ -197,6 +204,7 @@ function Admin() {
 
       const response = await fetch(
         "https://life-church-kids.onrender.com/api/lessons",
+  
         {
           method: "POST",
           headers: {
@@ -217,6 +225,7 @@ function Admin() {
             video: lesson.video,
             songs: [],
             dibujo: dibujoGenerado,
+            imagenColor: lesson.imagenColor || imagenesBiblicas.imagenColor,
           }),
         }
       );
@@ -239,6 +248,8 @@ function Admin() {
         activity: "",
         prayer: "",
         video: "",
+        dibujo: "",
+        imagenColor: "",
       });
 
       setFullLessonText("");

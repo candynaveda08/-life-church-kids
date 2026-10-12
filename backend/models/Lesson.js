@@ -66,6 +66,11 @@ const lessonSchema = new mongoose.Schema(
   default: "",
 },
 
+  imagenColor: {
+  type: String,
+  default: "",
+},
+
     songs: {
       type: [String],
       default: [],
