@@ -118,9 +118,9 @@ marginBottom: "30px",
         {currentSlide.title}
       </h2>
 
-      {currentSlide.title.includes("Historia bíblica") && lesson.dibujo && (
+      {currentSlide.title.includes("Historia bíblica") && lesson.imagenColor && (
   <img
-    src={lesson.dibujo}
+    src={lesson.imagenColor}
     alt={lesson.title}
     style={{
       width: "100%",

@@ -76,14 +76,14 @@ function Admin() {
     return text.slice(contentStart, endIndex).trim();
   };
 
-  const title = getSection("Título:", "Tema principal:");
-  const theme = getSection("Tema principal:", "Versículo:");
-  const verse = getSection("Versículo:", "Historia bíblica:");
-  const story = getSection("Historia bíblica:", "Explicación:");
-  const explanation = getSection("Explicación:", "Preguntas:");
-  const questionsText = getSection("Preguntas:", "Actividad:");
-  const activity = getSection("Actividad:", "Oración:");
-  const prayer = getSection("Oración:");
+  const title = getSection("DESCUBRIMIENTO BÍBLICO", "OBJETIVO DE LA LECCIÓN");
+const theme = getSection("OBJETIVO DE LA LECCIÓN", "VERSÍCULO PARA MEMORIZAR");
+const verse = getSection("VERSÍCULO PARA MEMORIZAR", "HISTORIA BÍBLICA");
+const story = getSection("HISTORIA BÍBLICA", "EXPLICACIÓN");
+const explanation = getSection("EXPLICACIÓN", "PREGUNTAS");
+const questionsText = getSection("PREGUNTAS", "ACTIVIDAD");
+const activity = getSection("ACTIVIDAD", "ORACIÓN");
+const prayer = getSection("ORACIÓN");
 
   const questions = questionsText
     .split("\n")
