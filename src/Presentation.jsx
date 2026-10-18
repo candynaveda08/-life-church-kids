@@ -165,16 +165,7 @@ const partesHistoria = dividirHistoria(lesson.bibleStory);
         boxSizing: "border-box",
       }}
     >
-      <h1
-        style={{
-          fontSize: "clamp(28px, 4vw, 48px)",
-lineHeight: 1.3,
-overflowWrap: "anywhere",
-marginBottom: "30px",
-        }}
-      >
-        {lesson.title}
-      </h1>
+      
 
       <h2
         style={{
@@ -262,21 +253,53 @@ marginBottom: "30px",
 
 
 )}
-  {currentSlide.imagen && !currentSlide.imprimir && !currentSlide.title.includes("Historia bíblica") && (
-  <img
-    src={currentSlide.imagen}
-    alt="Bienvenidos a Life Church Kids"
-    style={{
-      width: "100%",
-      maxWidth: "900px",
-      maxHeight: "55vh",
-      objectFit: "contain",
-      borderRadius: "20px",
-      margin: "15px auto",
-      display: "block",
-    }}
-  />
-)}
+  {currentSlide.imagen &&
+  !currentSlide.imprimir &&
+  !currentSlide.title.includes("Historia bíblica") && (
+    <div
+      style={{
+        position: "relative",
+        width: "100%",
+        maxWidth: "900px",
+        margin: "15px auto",
+      }}
+    >
+      <img
+        src={currentSlide.imagen}
+        alt="Bienvenidos a Life Church Kids"
+        style={{
+          width: "100%",
+          display: "block",
+          borderRadius: "20px",
+        }}
+      />
+
+      {slideIndex === 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: "54%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: "50%",
+            textAlign: "center",
+            fontSize: "clamp(14px, 2vw, 24px)",
+            fontWeight: "bold",
+            color: "#173b8c",
+            lineHeight: 1.1,
+            overflowWrap: "break-word",
+          }}
+        >
+          {lesson.title.replace(
+  /\s+(?=(?:Génesis|Éxodo|Levítico|Números|Deuteronomio|Josué|Jueces|Rut|Samuel|Reyes|Crónicas|Esdras|Nehemías|Ester|Job|Salmos|Proverbios|Eclesiastés|Isaías|Jeremías|Ezequiel|Daniel|Mateo|Marcos|Lucas|Juan|Hechos|Romanos|Corintios|Gálatas|Efesios|Filipenses|Colosenses|Timoteo|Hebreos|Santiago|Pedro|Apocalipsis)\s+\d)/i,
+  "\n"
+).split("\n").map((parte, index) => (
+  <div key={index}>{parte}</div>
+))}
+        </div>
+      )}
+    </div>
+  )}
 
       
       {currentSlide.imprimir &&110
