@@ -55,27 +55,37 @@ console.log("Respuestas guardadas:", leccionSeleccionada.answers);
   }
 
   // DIVIDIR LA HISTORIA BÍBLICA EN VARIAS LÁMINAS
-function dividirHistoria(texto, maxCaracteres = 400) {
-  if (!texto) return [];
+function dividirHistoria(texto, maxCaracteres = 450) {
+  if (!texto || !texto.trim()) return [];
 
   const palabras = texto.trim().split(/\s+/);
   const partes = [];
   let parteActual = "";
 
   palabras.forEach((palabra) => {
-    if (
-      parteActual.length + palabra.length + 1 > maxCaracteres &&
-      parteActual
-    ) {
+    const nuevaParte = parteActual
+      ? parteActual + " " + palabra
+      : palabra;
+
+    if (nuevaParte.length > maxCaracteres && parteActual) {
       partes.push(parteActual);
       parteActual = palabra;
     } else {
-      parteActual += (parteActual ? " " : "") + palabra;
+      parteActual = nuevaParte;
     }
   });
 
   if (parteActual) {
     partes.push(parteActual);
+  }
+
+  if (partes.length > 1) {
+    const ultima = partes[partes.length - 1];
+
+    if (ultima.length < 150) {
+      partes[partes.length - 2] += " " + ultima;
+      partes.pop();
+    }
   }
 
   return partes;
@@ -85,9 +95,16 @@ const partesHistoria = dividirHistoria(lesson.bibleStory);
 
   const slides = [
     {
-  title: "✨ Tema de la lección",
-  content: lesson.theme,
+  title: "¡BIENVENIDOS A LIFE CHURCH KIDS!",
+  content: "",
+  imagen: "/bienvenida-kids.png",
 },
+   {
+    title: "✨ Tema de la lección",
+    content: lesson.theme,
+  },
+
+
     {
       title: "📖 Versículo para memorizar",
       content: lesson.verse,
@@ -161,8 +178,8 @@ marginBottom: "30px",
 
       <h2
         style={{
-          fontSize: "52px",
-          marginBottom: "30px",
+          fontSize: "36px",
+          marginBottom: "15px",
         }}
       >
         {currentSlide.title}
@@ -175,12 +192,12 @@ marginBottom: "30px",
     style={{
       width: "100%",
       maxWidth: "850px",
-      maxHeight: "450px",
+      maxHeight: "30vh",
       objectFit: "contain",
       borderRadius: "20px",
       boxShadow: "0 12px 30px rgba(0,0,0,0.25)",
-      border: "5px solid white",
-      marginBottom: "20px",
+      border: "5px solid white", 
+      marginBottom: "10px",
     }}
   />
 )}
@@ -221,20 +238,49 @@ marginBottom: "30px",
       ))}
   </div>
 ) : (
+  currentSlide.content ? (
   <p
     style={{
-      fontSize: "40px",
-      lineHeight: "1.6",
-      maxWidth: "1200px",
+      fontSize: "clamp(26px, 2.5vw, 36px)",
+      lineHeight: 1.3,
+      maxWidth: "1000px",
+      width: "90%",
       whiteSpace: "pre-line",
+      background: "rgba(255,255,255,0.95)",
+      padding: "20px 30px",
+      borderRadius: "25px",
+      margin: "20px auto",
+      color: "#34495e",
+      boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
+      border: "3px solid white",
     }}
   >
-    {currentSlide.content || "Contenido no disponible"}
+    {currentSlide.content}
   </p>
+) : null
+
+
+
+)}
+  {currentSlide.imagen && !currentSlide.imprimir && !currentSlide.title.includes("Historia bíblica") && (
+  <img
+    src={currentSlide.imagen}
+    alt="Bienvenidos a Life Church Kids"
+    style={{
+      width: "100%",
+      maxWidth: "900px",
+      maxHeight: "55vh",
+      objectFit: "contain",
+      borderRadius: "20px",
+      margin: "15px auto",
+      display: "block",
+    }}
+  />
 )}
 
       
-      {currentSlide.imprimir && currentSlide.imagen && (
+      {currentSlide.imprimir &&110
+       && (
   <button
     onClick={() => {
       const ventana = window.open("", "_blank");
