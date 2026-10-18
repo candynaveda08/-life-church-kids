@@ -134,6 +134,21 @@ function Lesson() {
 >
   🗑️ Eliminar lección
 </button>
+<button
+  type="button"
+  onClick={() => navigate(`/admin?edit=${lesson._id}`)}
+  style={{
+    fontSize: "18px",
+    padding: "10px 20px",
+    margin: "10px",
+    cursor: "pointer",
+    backgroundColor: "#facc15",
+    border: "none",
+    borderRadius: "8px",
+  }}
+>
+  ✏️ Editar lección
+</button>
 
               {lesson.fullLessonText && (
   <div

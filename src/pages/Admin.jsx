@@ -1,9 +1,11 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { buscarImagenesBiblicas } from "../bibliotecaBiblica";
 
 function Admin() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const editId = searchParams.get("edit");
 
   const [showAccount, setShowAccount] = useState(false);
 
@@ -15,7 +17,8 @@ function Admin() {
     verse: "",
     story: "",
     explanation: "",
-    questions: ["", "", "", ""],
+    questions: ["", "", "", "", "", ""],
+    answers: ["", "", "", "", "", ""],
     activity: "",
     prayer: "",
     video: "",
@@ -47,6 +50,18 @@ function Admin() {
       };
     });
   }
+
+  function handleAnswerChange(index, value) {
+  setLesson((previousLesson) => {
+    const updatedAnswers = [...previousLesson.answers];
+    updatedAnswers[index] = value;
+
+    return {
+      ...previousLesson,
+      answers: updatedAnswers,
+    };
+  });
+}
 
   function processFullLesson() {
   if (!fullLessonText.trim()) {
@@ -82,7 +97,6 @@ const verse = getSection("VERSÍCULO PARA MEMORIZAR", "HISTORIA BÍBLICA");
 const story = getSection("HISTORIA BÍBLICA", "EXPLICACIÓN");
 const explanation = getSection("EXPLICACIÓN", "PREGUNTAS");
 const questionsText = getSection("PREGUNTAS", "ACTIVIDAD");
-const activity = getSection("ACTIVIDAD", "ORACIÓN");
 const prayer = getSection("ORACIÓN");
 
   const questions = questionsText
@@ -91,11 +105,24 @@ const prayer = getSection("ORACIÓN");
       question.replace(/^\s*\d+[.)-]?\s*/, "").trim()
     )
     .filter((question) => question !== "")
-    .slice(0, 4);
+    .slice(0, 6);
 
-  while (questions.length < 4) {
+  while (questions.length < 6) {
     questions.push("");
   }
+  const respuestasText = getSection("RESPUESTAS");
+
+const answers = respuestasText
+  .split("\n")
+  .map((respuesta) =>
+    respuesta.replace(/^\s*\d+[.)-]?\s*/, "").trim()
+  )
+  .filter((respuesta) => respuesta !== "")
+  .slice(0, 6);
+
+while (answers.length < 6) {
+  answers.push("");
+}
 
   setLesson((previousLesson) => ({
     ...previousLesson,
@@ -105,7 +132,8 @@ const prayer = getSection("ORACIÓN");
     story,
     explanation,
     questions,
-    activity,
+    answers,
+    activity: previousLesson.activity,
     prayer,
   }));
 
@@ -152,7 +180,12 @@ const prayer = getSection("ORACIÓN");
           Array.isArray(data.questions) && data.questions.length > 0
             ? data.questions
             : ["", "", "", ""],
-        activity: data.activity || "",
+        answers: Array.isArray(data.answers)
+  ? [...data.answers.slice(0, 6), ...Array(6).fill("")].slice(0, 6)
+  : Array(6).fill(""),
+
+activity: data.activity || "",
+
         prayer: data.prayer || "",
       }));
     } catch (error) {
@@ -203,10 +236,12 @@ const prayer = getSection("ORACIÓN");
 }
 
       const response = await fetch(
-        "https://life-church-kids.onrender.com/api/lessons",
+        editId
+  ? `https://life-church-kids.onrender.com/api/lessons/${editId}`
+  : "https://life-church-kids.onrender.com/api/lessons",
   
         {
-          method: "POST",
+          method: editId ? "PUT" : "POST",
           headers: {
             "Content-Type": "application/json",
           },
@@ -220,6 +255,7 @@ const prayer = getSection("ORACIÓN");
             verse: lesson.verse,
             explanation: lesson.explanation,
             questions: lesson.questions,
+            answers: lesson.answers,
             activity: lesson.activity,
             prayer: lesson.prayer,
             video: lesson.video,
@@ -260,6 +296,54 @@ const prayer = getSection("ORACIÓN");
       setSaving(false);
     }
   }
+
+  useEffect(() => {
+  if (!editId) return;
+
+  async function cargarLeccion() {
+    try {
+      const response = await fetch(
+        `https://life-church-kids.onrender.com/api/lessons/${editId}`
+      );
+
+      if (!response.ok) {
+        throw new Error("No se pudo cargar la lección");
+      }
+
+      const data = await response.json();
+
+      setLesson({
+        date: data.date || "",
+        teacher: data.teacher || "",
+        title: data.title || "",
+        theme: data.theme || "",
+        verse: data.verse || "",
+        story: data.bibleStory || "",
+        explanation: data.explanation || "",
+        questions: Array.from(
+          { length: 6 },
+          (_, i) => data.questions?.[i] || ""
+        ),
+        answers: Array.from(
+          { length: 6 },
+          (_, i) => data.answers?.[i] || ""
+        ),
+        activity: data.activity || "",
+        prayer: data.prayer || "",
+        video: data.video || "",
+        dibujo: data.dibujo || "",
+        imagenColor: data.imagenColor || "",
+      });
+
+      setFullLessonText(data.fullLessonText || "");
+    } catch (error) {
+      console.error("Error cargando la lección:", error);
+      alert("No se pudo cargar la lección para editar.");
+    }
+  }
+
+  cargarLeccion();
+}, [editId]);
 
   return (
     <main className="lesson-page">
@@ -507,16 +591,28 @@ const prayer = getSection("ORACIÓN");
           <label>Preguntas para los niños</label>
 
           {lesson.questions.map((question, index) => (
-            <input
-              key={index}
-              type="text"
-              value={question}
-              onChange={(event) =>
-                handleQuestionChange(index, event.target.value)
-              }
-              placeholder={`Pregunta ${index + 1}`}
-            />
-          ))}
+  <div key={index} style={{ marginBottom: "20px" }}>
+    <label>Pregunta {index + 1}</label>
+    <input
+      type="text"
+      value={question}
+      onChange={(event) =>
+        handleQuestionChange(index, event.target.value)
+      }
+      placeholder={`Escribe la pregunta ${index + 1}`}
+    />
+
+    <label>Respuesta {index + 1}</label>
+    <input
+      type="text"
+      value={lesson.answers?.[index] || ""}
+      onChange={(event) =>
+        handleAnswerChange(index, event.target.value)
+      }
+      placeholder={`Escribe la respuesta ${index + 1}`}
+    />
+  </div>
+))}
 
           <label>Actividad o juego</label>
 

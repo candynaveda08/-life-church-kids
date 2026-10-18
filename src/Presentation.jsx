@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { buscarImagenesBiblicas } from "./bibliotecaBiblica";
 
 function Presentation() {
     const navigate = useNavigate();
@@ -19,7 +20,27 @@ function Presentation() {
     ? data.find((item) => item._id === id)
     : data[data.length - 1];
 
-  setLesson(leccionSeleccionada || null);
+  if (leccionSeleccionada) {
+  const imagenes = buscarImagenesBiblicas(
+    leccionSeleccionada.title,
+    leccionSeleccionada.theme,
+    leccionSeleccionada.bibleStory
+  );
+
+  setLesson({
+  ...leccionSeleccionada,
+  imagenColor: imagenes.imagenColor,
+  dibujo: imagenes.dibujo,
+  answers: Array.isArray(leccionSeleccionada.answers)
+    ? leccionSeleccionada.answers
+    : [],
+});
+
+
+console.log("Respuestas guardadas:", leccionSeleccionada.answers);
+} else {
+  setLesson(null);
+}
 } 
       } catch (error) {
         console.error("Error cargando la lección:", error);
@@ -33,6 +54,35 @@ function Presentation() {
     return <h1>No hay una lección publicada.</h1>;
   }
 
+  // DIVIDIR LA HISTORIA BÍBLICA EN VARIAS LÁMINAS
+function dividirHistoria(texto, maxCaracteres = 400) {
+  if (!texto) return [];
+
+  const palabras = texto.trim().split(/\s+/);
+  const partes = [];
+  let parteActual = "";
+
+  palabras.forEach((palabra) => {
+    if (
+      parteActual.length + palabra.length + 1 > maxCaracteres &&
+      parteActual
+    ) {
+      partes.push(parteActual);
+      parteActual = palabra;
+    } else {
+      parteActual += (parteActual ? " " : "") + palabra;
+    }
+  });
+
+  if (parteActual) {
+    partes.push(parteActual);
+  }
+
+  return partes;
+}
+
+const partesHistoria = dividirHistoria(lesson.bibleStory);
+
   const slides = [
     {
   title: "✨ Tema de la lección",
@@ -42,29 +92,29 @@ function Presentation() {
       title: "📖 Versículo para memorizar",
       content: lesson.verse,
     },
+
+    ...partesHistoria.map((parte, index) => ({
+  title: `📖 Historia bíblica ${index + 1} de ${partesHistoria.length}`,
+  content: parte,
+  imagen: index === 0 ? lesson.imagenColor : null,
+})),
+    
+    
+    ...dividirHistoria(lesson.explanation, 300).map((parte, index, partes) => ({
+  title: `💡 Explicación ${index + 1} de ${partes.length}`,
+  content: parte,
+})),
     {
-      title: "📖 Historia bíblica",
-      content: lesson.bibleStory,
-      imagen: lesson.imagenColor,
-    },
-    {
-      title: "💡 Explicación",
-      content: lesson.explanation,
-    },
-    {
-      title: "❓ Preguntas",
-      content: lesson.questions?.join("\n"),
-    },
-    {
-      title: "🎨 Actividad",
-      content: lesson.activity,
-    },
-    {
-  title: "🖍️ Dibujo para colorear",
-  content: "¡Vamos a colorear nuestra historia bíblica!",
-  imagen: lesson.dibujo,
-  imprimir: true,
+  title: "❓ Preguntas",
+  content: lesson.questions
+    ?.slice(0, 6)
+    .map((pregunta, index) => `${index + 1}. ${pregunta}`)
+    .join("\n\n"),
+  questions: lesson.questions?.slice(0, 6),
+  answers: lesson.answers?.slice(0, 6),
 },
+    
+    
     {
       title: "🙏 Oración",
       content: lesson.prayer,
@@ -118,46 +168,72 @@ marginBottom: "30px",
         {currentSlide.title}
       </h2>
 
-      {currentSlide.title.includes("Historia bíblica") && lesson.imagenColor && (
+      {currentSlide.title.includes("Historia bíblica 1 de") && lesson.imagenColor && (
   <img
     src={lesson.imagenColor}
     alt={lesson.title}
     style={{
       width: "100%",
-      maxWidth: "650px",
-      maxHeight: "350px",
+      maxWidth: "850px",
+      maxHeight: "450px",
       objectFit: "contain",
       borderRadius: "20px",
+      boxShadow: "0 12px 30px rgba(0,0,0,0.25)",
+      border: "5px solid white",
       marginBottom: "20px",
     }}
   />
 )}
 
-      <p
-        style={{
-          fontSize: "40px",
-          lineHeight: "1.6",
-          maxWidth: "1200px",
-          whiteSpace: "pre-line",
-        }}
-      >
-        {currentSlide.content || "Contenido no disponible"}
-      </p>
+      {currentSlide.questions ? (
+  <div style={{ maxWidth: "900px", margin: "auto" }}>
+    {currentSlide.questions
+      .filter((pregunta) => pregunta.trim() !== "")
+      .map((pregunta, index) => (
+        <details
+          key={index}
+          style={{
+            marginBottom: "25px",
+            padding: "15px",
+            backgroundColor: "white",
+            borderRadius: "15px",
+            textAlign: "center",
+          }}
+        >
+          <summary
+            style={{
+              fontSize: "26px",
+              cursor: "pointer",
+              color: "#174ea6",
+              fontWeight: "bold",
+            }}
+          >
+            {index + 1}. {pregunta}
+            <div style={{ fontSize: "18px", marginTop: "10px" }}>
+              👀 Mostrar respuesta
+            </div>
+          </summary>
 
-      {currentSlide.imagen && (
-  <img
-    src={currentSlide.imagen}
-    alt="Ilustración de la historia bíblica"
+          <p style={{ fontSize: "25px", color: "green" }}>
+            ✅ {currentSlide.answers?.[index] || "Respuesta pendiente"}
+          </p>
+        </details>
+      ))}
+  </div>
+) : (
+  <p
     style={{
-      width: "100%",
-      maxWidth: "650px",
-      maxHeight: "400px",
-      objectFit: "contain",
-      borderRadius: "15px",
-      marginTop: "20px",
+      fontSize: "40px",
+      lineHeight: "1.6",
+      maxWidth: "1200px",
+      whiteSpace: "pre-line",
     }}
-  />
-)} 
+  >
+    {currentSlide.content || "Contenido no disponible"}
+  </p>
+)}
+
+      
       {currentSlide.imprimir && currentSlide.imagen && (
   <button
     onClick={() => {

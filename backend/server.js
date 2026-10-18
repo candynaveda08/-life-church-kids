@@ -41,6 +41,54 @@ app.get("/api/lessons", async (req, res) => {
   }
 });
 
+// Obtener una lección por su ID
+app.get("/api/lessons/:id", async (req, res) => {
+  try {
+    const lesson = await Lesson.findById(req.params.id);
+
+    if (!lesson) {
+      return res.status(404).json({
+        message: "Lección no encontrada",
+      });
+    }
+
+    res.json(lesson);
+  } catch (error) {
+    console.error("Error buscando la lección:", error);
+    res.status(500).json({
+      message: "Error al buscar la lección",
+    });
+  }
+});
+
+// Actualizar una lección existente
+app.put("/api/lessons/:id", async (req, res) => {
+  try {
+    const lesson = await Lesson.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!lesson) {
+      return res.status(404).json({
+        message: "Lección no encontrada",
+      });
+    }
+
+    res.json(lesson);
+  } catch (error) {
+    console.error("Error actualizando la lección:", error);
+
+    res.status(500).json({
+      message: "No se pudo actualizar la lección",
+    });
+  }
+});
+
 // Generar una lección completa con IA
 app.post("/api/generate-lesson", async (req, res) => {
   try {
