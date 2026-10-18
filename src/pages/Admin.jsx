@@ -111,6 +111,7 @@ const prayer = getSection("ORACIÓN");
     questions.push("");
   }
   const respuestasText = getSection("RESPUESTAS");
+  console.log("RESPUESTAS ENCONTRADAS:", respuestasText);
 
 const answers = respuestasText
   .split("\n")

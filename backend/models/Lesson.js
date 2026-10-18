@@ -45,6 +45,10 @@ const lessonSchema = new mongoose.Schema(
       type: [String],
       default: [],
     },
+    answers: {
+  type: [String],
+  default: [],
+},
 
     activity: {
       type: String,

@@ -270,6 +270,7 @@ app.post("/api/lessons", async (req, res) => {
       explanation: req.body.explanation || "",
 
       questions: req.body.questions || [],
+      answers: req.body.answers || [],
 
       activity: req.body.activity || "",
 
