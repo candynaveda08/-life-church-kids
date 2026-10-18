@@ -3,16 +3,17 @@ import { useNavigate } from "react-router-dom";
 function Normas() {
   const navigate = useNavigate();
 
-  const normas = [
-    "🙏 Comenzamos nuestra clase con oración.",
-    "👂 Escuchamos cuando la maestra está hablando.",
-    "✋ Levantamos la mano para participar.",
-    "❤️ Tratamos a nuestros compañeros con amor y respeto.",
-    "🚶 Caminamos dentro del salón.",
-    "🧸 Cuidamos los materiales y juguetes.",
-    "😊 Participamos con alegría en las actividades.",
-    "📖 Prestamos atención a la Palabra de Dios.",
-  ];
+  
+    const normas = [
+  "👂 Escucha cuando la maestra está hablando.",
+  "❤️ Sé amable y respetuoso con todos.",
+  "🚫 No correr ni subirse en las sillas.",
+  "🙋 Levanta tu mano para hablar.",
+  "🤲 Mantén tus manos para ti.",
+  "🎶 Participa en la alabanza.",
+  "📖 Cuida tus materiales.",
+  "🧸 No traer juguetes de afuera.",
+];
 
   return (
     <div
