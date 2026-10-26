@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const videos = [
+  { id: "LPDauiwnO5o", titulo: "El buen samaritano", referencia: "Lucas 10:25–37", duracion: "Video corto · Casita de Nubes", destacado: true, descripcion: "¡Yo puedo amar como Jesús! Una historia animada para aprender a ayudar y amar a nuestro prójimo.", pregunta: "¿Qué hizo el samaritano para ayudar al hombre herido? ¿Cómo puedes demostrar el amor de Jesús esta semana?" },
   { id: "cj9jvNLO6jo", titulo: "El arca de Noé", referencia: "Génesis 6–9", duracion: "Aprox. 14 minutos", descripcion: "Descubramos cómo Noé confió en Dios y siguió sus instrucciones.", pregunta: "¿Cómo podemos obedecer a Dios esta semana?" },
   { id: "GuJicJyBp7Q", titulo: "La máquina súper especial de la gracia", referencia: "Efesios 2:8–9", duracion: "Aprox. 14 minutos", descripcion: "Una aventura de Pequeños Héroes para conversar sobre la gracia y el amor de Dios.", pregunta: "¿Por qué la gracia de Dios es un regalo?" },
 ];
@@ -14,7 +15,7 @@ export default function Historias() {
       <button onClick={() => navigate("/inicio")} style={{ padding: "12px 24px", fontSize: 18, cursor: "pointer" }}>← Volver al inicio</button>
       <h1 style={{ fontSize: "clamp(30px, 5vw, 48px)" }}>🎥 Historias bíblicas</h1>
       <p style={{ fontSize: 22 }}>Aprendamos juntos la Palabra de Dios</p>
-      <p>Videos infantiles en español · 10–15 minutos · Pequeños Héroes</p>
+      <p>Videos infantiles en español · Historias para aprender y compartir</p>
       {seleccionado && (
         <section aria-label="Video seleccionado" style={{ maxWidth: 900, margin: "24px auto", padding: 16, background: "white", borderRadius: 20 }}>
           <h2>{seleccionado.titulo}</h2>
@@ -27,6 +28,7 @@ export default function Historias() {
       <section aria-label="Biblioteca de videos" style={{ maxWidth: 900, margin: "28px auto", display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 280px), 1fr))", gap: 24 }}>
         {videos.map((video) => (
           <article key={video.id} style={{ background: "white", borderRadius: 20, padding: 24, boxShadow: "0 4px 12px rgba(0,0,0,.12)" }}>
+            {video.destacado && <p style={{ color: "#174ea6", fontWeight: "bold" }}>⭐ Para la lección de esta semana</p>}
             <h2>{video.titulo}</h2>
             <p><strong>{video.referencia}</strong></p>
             <p>{video.duracion} · Español</p>
