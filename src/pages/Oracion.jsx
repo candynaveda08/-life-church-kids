@@ -25,7 +25,7 @@ function Oracion() {
         ← Volver al inicio
       </button>
 
-      <h1>🙏 Oración</h1>
+      <h1>🙏 Credo</h1>
 
       <img
         src={oracion}

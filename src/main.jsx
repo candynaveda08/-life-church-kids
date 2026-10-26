@@ -40,7 +40,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/presentation" element={<CurriculumRoute mode="presentation"><Presentation /></CurriculumRoute>} />
         <Route path="/alabanzas" element={<Alabanzas />} />
         <Route path="/juegos" element={<CurriculumRoute mode="activity"><Juegos /></CurriculumRoute>} />
-        <Route path="/oracion" element={<CurriculumRoute mode="credo"><Oracion /></CurriculumRoute>} />
+        <Route path="/oracion" element={<Oracion />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/normas" element={<Normas />} />
@@ -53,3 +53,4 @@ createRoot(document.getElementById("root")).render(
     </BrowserRouter>
   </StrictMode>
 );
+

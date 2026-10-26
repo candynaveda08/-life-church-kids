@@ -73,7 +73,7 @@ function FullLesson({ lesson }) {
     <h2>5. Actividad · 10 min</h2><h3>{lesson.craft.title}</h3><ol>{lesson.craft.steps.map(step => <li key={step}>{step}</li>)}</ol>
     <p>La página para colorear es una alternativa a la manualidad. Para los pequeños, permite responder con dibujos y ayuda a escribir; para los mayores, pide explicar cómo aplicar la enseñanza. Ofrece participación sentada y materiales al alcance.</p>
     <h2>6. Versículo con movimientos · 3 min</h2><blockquote>{lesson.verse}<footer>{lesson.verseReference}</footer></blockquote><p>{lesson.motions} Repítanlo tres veces sin competir.</p>
-    <h2>7. Credo y oración final · 3 min</h2><p><strong>Credo:</strong> {lesson.credo}</p><p><strong>Oración:</strong> {lesson.prayer}</p>
+    <h2>7. Oración final · 3 min</h2><p><strong>Oración:</strong> {lesson.prayer}</p>
     <h2>Desafío para casa</h2><p>{lesson.challenge}</p>
   </>;
 }
@@ -125,8 +125,8 @@ export default function CurriculumRoute({ mode, children }) {
         {mode === 'verse' && <><h2>📜 Versículo de la semana</h2><blockquote>{lesson.verse}<footer>{lesson.verseReference}</footer></blockquote><p className="main-truth">{lesson.truth}</p><h3>Aprendamos con movimientos</h3><p>{lesson.motions}</p><p>Repítanlo juntos tres veces. Los pequeños pueden repetir por frases y los mayores practicar sin mirar.</p><h3>Para practicar en casa</h3><p>{lesson.challenge}</p></>}
         {mode === 'story' && <Video lesson={lesson} />}
         {mode === 'activity' && <Activity lesson={lesson} />}
-        {mode === 'credo' && <><h2>🙏 Credo</h2><blockquote>{lesson.credo}</blockquote><h2>Oración final</h2><p>{lesson.prayer}</p></>}
       </article>
     </main> : children}
   </div>;
 }
+

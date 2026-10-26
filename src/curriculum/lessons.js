@@ -16,12 +16,11 @@ export const lessons2026 = [
     craft: { title: 'Una ovejita con mi nombre', materials: 'Hoja blanca, crayones, papel para rasgar y pegamento en barra.', steps: ['Dibuja un cuerpo de oveja grande y agrega cara y patas.', 'Escribe tu nombre dentro y la frase: Soy valioso para Jesús.', 'Rasga pequeños trozos de papel y pégalos como lana, sin tapar tu nombre.', 'Dibuja a otra ovejita y escribe el nombre de alguien a quien incluirás.'] },
     game: { title: 'Encuentra la ovejita', steps: ['Coloca una oveja de papel visible dentro del salón antes de comenzar.', 'Los niños la buscan desde sus lugares señalando; no corren ni salen del salón.', 'Quien la encuentra invita a otro niño a sostenerla y ambos dicen: Todos somos importantes para Dios.'] },
     trueFalse: [['El pastor pensó que la oveja perdida no importaba.', false, 'La buscó porque era importante.'], ['El pastor se alegró al encontrar su oveja.', true, 'Compartió su alegría con otros.']],
-    credo: 'Jesús me ama y me conoce. Cada persona es importante para Dios. Puedo volver a él y recibir a otros con amor.',
     prayer: 'Jesús, gracias porque cada uno es valioso para ti. Ayúdanos a pedir perdón, acercarnos a ti e incluir a los demás. Amén.',
     challenge: 'Invita a jugar o conversar a alguien que suele quedarse solo y cuéntalo en la próxima clase.',
     motions: 'Jehová: señala hacia arriba; es mi pastor: abraza tus hombros; nada me faltará: abre las manos con confianza.',
     video: { id: 'gvAT-ViFVTs', title: 'La oveja perdida — historia bíblica para niños', source: 'YouTube', note: 'Relato de la oveja perdida. La duración del video puede variar; úsalo como apoyo y reserva tiempo para conversar.' },
-    color: '/colorear-2026/2026-11-08.svg', colorPrompt: 'Colorea la ovejita y escribe tu nombre en la nube: eres importante para Jesús.'
+    color: '/colorear-2026/2026-11-08.svg', colorPrompt: 'Colorea al pastor que encuentra a su ovejita. Recuerda: eres importante para Jesús.'
   },
   {
     date: '2026-11-15', teacher: 'Candy Naveda', title: '¡Gracias, Jesús!', reference: 'Lucas 17:11–19',
@@ -39,12 +38,11 @@ export const lessons2026 = [
     craft: { title: 'Mis diez dedos agradecidos', materials: 'Una hoja, crayones y lápiz.', steps: ['Traza tus dos manos sobre la hoja.', 'En los dedos dibuja o escribe diez motivos de gratitud; pueden ser cosas sencillas.', 'En el centro escribe: ¡Gracias, Jesús!', 'Escoge una persona a quien darás las gracias hoy.'] },
     game: { title: 'Regreso para agradecer', steps: ['La maestra cuenta diez con los dedos y los niños acompañan desde sus asientos.', 'Cuando dice Gracias, todos ponen las manos en el corazón.', 'Cada niño que desee participa diciendo un motivo de gratitud; se permite pasar el turno.'] },
     trueFalse: [['Solo un hombre regresó a dar gracias a Jesús.', true, 'Uno regresó alabando a Dios.'], ['Para agradecer tenemos que ocultar nuestra tristeza.', false, 'Dios también escucha nuestras preocupaciones.']],
-    credo: 'Jesús me escucha. Puedo agradecer su amor y hablarle con sinceridad. Hoy recordaré decir gracias.',
     prayer: 'Señor Jesús, gracias por escucharnos y cuidarnos. Enséñanos a reconocer tus regalos y a agradecer a quienes nos ayudan. Acompaña a quien esté enfermo o triste. Amén.',
     challenge: 'Da las gracias a tres personas durante la semana y haz un dibujo de un motivo de gratitud.',
     motions: 'Dad gracias: manos juntas frente al corazón; en todo: dibuja un círculo amplio con los brazos.',
     video: { id: 'W5NFumelEEw', title: 'Jesús sana a diez leprosos — lección para niños', source: 'Iglesia en Lobos', note: 'Basado en Lucas 17:11–19. Revisa el video antes de clase y elige el relato si necesitas una versión más breve.' },
-    color: '/colorear-2026/2026-11-15.svg', colorPrompt: 'Colorea las diez figuras. Rodea a la que regresa para decir gracias y agrega tus motivos de gratitud.'
+    color: '/colorear-2026/2026-11-15.svg', colorPrompt: 'Colorea al hombre que volvió para agradecer a Jesús. Dibuja algo por lo que das gracias.'
   },
   {
     date: '2026-11-22', teacher: 'Neida Rivero', title: 'Gracias a Dios: puedo compartir', reference: 'Juan 6:1–13',
@@ -62,7 +60,6 @@ export const lessons2026 = [
     craft: { title: 'Mi canasta para compartir', materials: 'Hoja, crayones, papel de colores y pegamento en barra.', steps: ['Dibuja una canasta grande.', 'Dibuja cinco panes y dos peces; cuéntalos juntos.', 'En cada pan escribe o dibuja algo que puedas compartir.', 'Agrega la frase: Gracias, Jesús, por tu cuidado.'] },
     game: { title: 'Cinco panes, dos peces', steps: ['Reparte siete tarjetas de papel: cinco panes y dos peces.', 'Los niños colaboran para colocarlas en una canasta dibujada sobre la mesa.', 'Cada participante dice algo que puede compartir. No uses comida real para esta actividad.'] },
     trueFalse: [['Jesús dio gracias antes de repartir el pan.', true, 'Agradeció y luego lo repartió.'], ['Jesús pidió desperdiciar todo lo que sobraba.', false, 'Pidió recogerlo para no desperdiciarlo.']],
-    credo: 'Dios es bueno. Jesús cuida de nosotros. Puedo dar gracias, cuidar lo que tengo y compartir con amor.',
     prayer: 'Padre, gracias por tu bondad. Ayúdanos a cuidar lo que recibimos y a compartir. Te pedimos por las familias que necesitan alimento y por quienes las ayudan. Amén.',
     challenge: 'Con permiso de un adulto, comparte algo útil o ayuda en una tarea de casa. Agradece a Dios antes de una comida.',
     motions: 'Alabad: levanta las manos; a Jehová: señala hacia arriba; porque él es bueno: manos sobre el corazón.',
@@ -85,7 +82,6 @@ export const lessons2026 = [
     craft: { title: 'Una tarjeta de buenas noticias', materials: 'Hoja doblada, crayones y lápiz.', steps: ['Dobla la hoja como tarjeta.', 'Dibuja una estrella y escribe: Dios cumple sus promesas.', 'Dentro dibuja a María escuchando el mensaje del ángel.', 'Escribe Lucas 1:37 y comparte la tarjeta con tu familia.'] },
     game: { title: 'Escucho y respondo', steps: ['La maestra dice acciones sencillas: escuchar, preguntar y confiar.', 'Los niños representan escuchar con la mano junto al oído, preguntar levantando la mano y confiar con las manos en el corazón.', 'Lee la verdad principal y pide que cada niño elija una acción para practicar.'] },
     trueFalse: [['Gabriel anunció que el niño se llamaría Jesús.', true, 'Ese fue el nombre que indicó el ángel.'], ['María no podía hacer preguntas.', false, 'Ella preguntó y Gabriel le respondió.']],
-    credo: 'Dios es fiel. Jesús es el Hijo de Dios. Puedo escuchar su Palabra, hacer preguntas y confiar en él.',
     prayer: 'Padre, gracias por enviar a Jesús. Ayúdanos a escuchar tu Palabra y a confiar en ti cuando tenemos preguntas o sentimos miedo. Amén.',
     challenge: 'Lee Lucas 1:26–38 con un adulto y comparte una pregunta o algo que aprendiste.',
     motions: 'Porque nada: mueve el dedo para decir nada; hay imposible: abre las manos; para Dios: señala hacia arriba.',
@@ -108,7 +104,6 @@ export const lessons2026 = [
     craft: { title: 'Un pesebre para recordar', materials: 'Papel, crayones y pegamento en barra.', steps: ['Dibuja un pesebre y agrega tiras de papel como paja.', 'Dibuja al bebé Jesús envuelto en pañales.', 'Encima dibuja una estrella y escribe: Jesús, regalo de Dios.', 'En el reverso escribe o dibuja una manera de mostrar amor en casa.'] },
     game: { title: 'Regalos que no se compran', steps: ['Los niños se pasan una caja vacía de mano en mano, sin lanzarla.', 'Quien la recibe menciona o representa un regalo de amor: ayudar, escuchar, compartir o animar.', 'Todos responden: Gracias, Dios, por Jesús. También se puede participar señalando dibujos.'] },
     trueFalse: [['María acostó al bebé Jesús en un pesebre.', true, 'Así lo cuenta Lucas.'], ['El amor de Dios depende de cuántos regalos recibimos.', false, 'Dios nos ama sin medir los regalos materiales.']],
-    credo: 'Dios me ama. Jesús es su Hijo y vino por amor. En Navidad celebraré a Jesús y compartiré su amor.',
     prayer: 'Padre, gracias por el regalo de Jesús. Que nuestra celebración esté llena de tu amor. Acompaña a las familias que necesitan consuelo y ayúdanos a servirlas. Amén.',
     challenge: 'Haz un regalo de amor que no cueste dinero: una tarjeta, una ayuda o palabras de ánimo.',
     motions: 'Amó Dios al mundo: dibuja un círculo con los brazos y abraza tu pecho; ha dado: extiende las manos; a su Hijo: mece los brazos como sosteniendo un bebé.',
@@ -131,7 +126,6 @@ export const lessons2026 = [
     craft: { title: 'Una estrella de buenas noticias', materials: 'Hoja, crayones y lápiz; tijeras solo manejadas por un adulto si se recorta.', steps: ['Dibuja una estrella grande.', 'En el centro escribe: ¡Nació Jesús, el Salvador!', 'En las puntas dibuja a alguien con quien quieras compartir esta noticia.', 'Decora la estrella y llévala a casa para contar Lucas 2:8–20.'] },
     game: { title: 'Mensajeros de alegría', steps: ['Forma un círculo sentado. La maestra dice claramente: Jesús es el Salvador.', 'Cada niño comparte la frase con otro y añade una palabra de alegría.', 'Terminen repitiendo todos el mensaje juntos; la meta es comprenderlo, no competir.'] },
     trueFalse: [['Los pastores fueron a Belén para ver a Jesús.', true, 'Encontraron al bebé como el ángel había dicho.'], ['Las buenas noticias eran solo para los pastores.', false, 'El ángel anunció alegría para todo el pueblo.']],
-    credo: 'Jesús es el Salvador. Su amor es una buena noticia. Puedo compartirlo con alegría y respeto.',
     prayer: 'Jesús, gracias porque viniste a salvarnos. Llena nuestro corazón de alegría y enséñanos a compartir tu amor con palabras y acciones. Amén.',
     challenge: 'Cuenta a un familiar la noticia que recibieron los pastores y comparte tu estrella de papel.',
     motions: 'Os ha nacido hoy: mece los brazos; ciudad de David: forma un techo; un Salvador: manos sobre el corazón; Cristo el Señor: señala hacia arriba.',
@@ -154,7 +148,6 @@ export const lessons2026 = [
     craft: { title: 'Mi luz para el nuevo año', materials: 'Hoja, crayones y lápiz.', steps: ['Dibuja una linterna o una lámpara con rayos grandes.', 'En los rayos escribe: ayudar, compartir, incluir, perdonar y animar.', 'Marca una acción para practicar al comenzar el nuevo año.', 'Agrega Mateo 5:14 y decora sin tapar las palabras.'] },
     game: { title: 'Así brilla el amor', steps: ['Lee situaciones: un niño está solo, se cae un lápiz, alguien está triste o necesitas pedir perdón.', 'Los niños proponen una respuesta y señalan la linterna cuando muestra amor.', 'Terminen recordando juntos una enseñanza de cada lección de noviembre y diciembre.'] },
     trueFalse: [['Brillar significa mostrar el amor de Dios con nuestras acciones.', true, 'Nuestras buenas obras pueden dar gloria al Padre.'], ['Ayudamos para demostrar que somos mejores que otros.', false, 'Ayudamos por amor y damos gloria a Dios.']],
-    credo: 'Jesús me ama y me enseña a amar. Con la ayuda del Espíritu Santo puedo agradecer, compartir y servir. Mi vida puede reflejar su luz.',
     prayer: 'Señor Jesús, gracias por lo que aprendimos este año. Perdona nuestras faltas y ayúdanos a crecer. Que nuestras palabras y acciones reflejen tu amor en el nuevo año. Amén.',
     challenge: 'Elige una acción de amor para practicar tres veces durante la semana y compártela con tu familia.',
     motions: 'Vosotros: señala al grupo con las manos abiertas; sois la luz: abre y cierra las manos como rayos; del mundo: dibuja un círculo con los brazos.',
@@ -166,3 +159,4 @@ export const lessons2026 = [
 export function defaultLessonDate(today = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Chicago' })) {
   return lessons2026.filter(lesson => lesson.date <= today).at(-1)?.date || '';
 }
+
