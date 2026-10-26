@@ -28,7 +28,7 @@ function PrintDrawing({ lesson }) {
   }
   return <>
     <p>{lesson.colorPrompt}</p>
-    <div className="resource-actions"><button onClick={printDrawing}>🖨️ Imprimir dibujo</button><a href={lesson.color} target="_blank" rel="noopener noreferrer">Abrir dibujo completo ↗</a><a href={lesson.color} download={`colorear-${lesson.date}.svg`}>Descargar dibujo</a></div>
+    <div className="resource-actions"><button onClick={printDrawing}>🖨️ Imprimir dibujo</button><a href={lesson.color} target="_blank" rel="noopener noreferrer">Abrir dibujo completo ↗</a><a href={lesson.color} download={`colorear-${lesson.date}.${lesson.color.split('.').at(-1)}`}>Descargar dibujo</a></div>
     {error && <p role="alert">{error}</p>}
     <img className="coloring-sheet" src={lesson.color} alt={`${lesson.title}. ${lesson.colorPrompt}`} />
   </>;

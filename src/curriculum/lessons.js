@@ -20,7 +20,7 @@ export const lessons2026 = [
     challenge: 'Invita a jugar o conversar a alguien que suele quedarse solo y cuéntalo en la próxima clase.',
     motions: 'Jehová: señala hacia arriba; es mi pastor: abraza tus hombros; nada me faltará: abre las manos con confianza.',
     video: { id: 'gvAT-ViFVTs', title: 'La oveja perdida — historia bíblica para niños', source: 'YouTube', note: 'Relato de la oveja perdida. La duración del video puede variar; úsalo como apoyo y reserva tiempo para conversar.' },
-    color: '/colorear-2026/2026-11-08.svg', colorPrompt: 'Colorea al pastor que encuentra a su ovejita. Recuerda: eres importante para Jesús.'
+    color: '/colorear-2026/2026-11-08.jpg', colorPrompt: 'Colorea al pastor que encuentra a su ovejita. Recuerda: eres importante para Jesús.'
   },
   {
     date: '2026-11-15', teacher: 'Candy Naveda', title: '¡Gracias, Jesús!', reference: 'Lucas 17:11–19',
@@ -42,7 +42,7 @@ export const lessons2026 = [
     challenge: 'Da las gracias a tres personas durante la semana y haz un dibujo de un motivo de gratitud.',
     motions: 'Dad gracias: manos juntas frente al corazón; en todo: dibuja un círculo amplio con los brazos.',
     video: { id: 'W5NFumelEEw', title: 'Jesús sana a diez leprosos — lección para niños', source: 'Iglesia en Lobos', note: 'Basado en Lucas 17:11–19. Revisa el video antes de clase y elige el relato si necesitas una versión más breve.' },
-    color: '/colorear-2026/2026-11-15.svg', colorPrompt: 'Colorea al hombre que volvió para agradecer a Jesús. Dibuja algo por lo que das gracias.'
+    color: '/colorear-2026/2026-11-15.jpg', colorPrompt: 'Colorea al hombre que volvió para agradecer a Jesús. Dibuja algo por lo que das gracias.'
   },
   {
     date: '2026-11-22', teacher: 'Neida Rivero', title: 'Gracias a Dios: puedo compartir', reference: 'Juan 6:1–13',
@@ -64,7 +64,7 @@ export const lessons2026 = [
     challenge: 'Con permiso de un adulto, comparte algo útil o ayuda en una tarea de casa. Agradece a Dios antes de una comida.',
     motions: 'Alabad: levanta las manos; a Jehová: señala hacia arriba; porque él es bueno: manos sobre el corazón.',
     video: { id: 'SVAChGWaNYI', title: 'Jesús alimenta a los 5000 — el milagro de los panes y los peces', source: 'YouTube', note: 'Historia de Juan 6. Después del video, cuenten cinco panes, dos peces y doce cestas.' },
-    color: '/colorear-2026/2026-11-22.svg', colorPrompt: 'Colorea la canasta, cuenta los cinco panes y los dos peces y dibuja algo que puedas compartir.'
+    color: '/colorear-2026/2026-11-22.jpg', colorPrompt: 'Colorea la canasta, cuenta los cinco panes y los dos peces y dibuja algo que puedas compartir.'
   },
   {
     date: '2026-11-29', teacher: 'Jessica Mesa', title: 'Confío en las promesas de Dios', reference: 'Lucas 1:26–38',
@@ -86,7 +86,7 @@ export const lessons2026 = [
     challenge: 'Lee Lucas 1:26–38 con un adulto y comparte una pregunta o algo que aprendiste.',
     motions: 'Porque nada: mueve el dedo para decir nada; hay imposible: abre las manos; para Dios: señala hacia arriba.',
     video: { id: 'ppKc8khUgz4', title: 'María y el ángel Gabriel', source: 'Nace Kids / NACEspañol', note: 'Video sobre el anuncio del nacimiento de Jesús. Conversen sobre escuchar y confiar en Dios.' },
-    color: '/colorear-2026/2026-11-29.svg', colorPrompt: 'Colorea la estrella y la tarjeta de buenas noticias. Decora las palabras: Dios cumple sus promesas.'
+    color: '/colorear-2026/2026-11-29.jpg', colorPrompt: 'Colorea a María y al ángel Gabriel. Recuerda: Dios cumple sus promesas.'
   },
   {
     date: '2026-12-13', teacher: 'Socorro Hernández', title: 'Jesús: el regalo del amor de Dios', reference: 'Lucas 2:1–7; Juan 3:16',
@@ -108,7 +108,7 @@ export const lessons2026 = [
     challenge: 'Haz un regalo de amor que no cueste dinero: una tarjeta, una ayuda o palabras de ánimo.',
     motions: 'Amó Dios al mundo: dibuja un círculo con los brazos y abraza tu pecho; ha dado: extiende las manos; a su Hijo: mece los brazos como sosteniendo un bebé.',
     video: { id: 'fKcB1a9Vz7k', title: 'La historia del nacimiento de Jesús', source: 'Minno Español', note: 'Relato navideño. La maestra puede pausar después del nacimiento para repasar Lucas 2:1–7.' },
-    color: '/colorear-2026/2026-12-13.svg', colorPrompt: 'Colorea el pesebre y la estrella. Recuerda: el regalo más importante es Jesús.'
+    color: '/colorear-2026/2026-12-13.jpg', colorPrompt: 'Colorea el pesebre y la estrella. Recuerda: el regalo más importante es Jesús.'
   },
   {
     date: '2026-12-20', teacher: 'Candy Naveda', title: '¡Buenas noticias para todos!', reference: 'Lucas 2:8–20',
@@ -130,7 +130,7 @@ export const lessons2026 = [
     challenge: 'Cuenta a un familiar la noticia que recibieron los pastores y comparte tu estrella de papel.',
     motions: 'Os ha nacido hoy: mece los brazos; ciudad de David: forma un techo; un Salvador: manos sobre el corazón; Cristo el Señor: señala hacia arriba.',
     video: { id: 'fKcB1a9Vz7k', title: 'El nacimiento de Jesús — para repasar las buenas noticias de Navidad', source: 'Minno Español', note: 'Es el mismo relato navideño de la clase anterior. Esta vez enfóquense en el anuncio y la alegría; lean Lucas 2:8–20 antes de conversar.' },
-    color: '/colorear-2026/2026-12-20.svg', colorPrompt: 'Colorea las estrellas y la ovejita del campo. Escribe en la estrella grande: ¡Nació el Salvador!'
+    color: '/colorear-2026/2026-12-20.jpg', colorPrompt: 'Colorea al ángel, a los pastores y a las ovejitas. Cuenta la buena noticia: ¡Nació el Salvador!'
   },
   {
     date: '2026-12-27', teacher: 'Neida Rivero', title: 'Brillaré con el amor de Jesús', reference: 'Mateo 5:14–16; Lucas 10:25–37',
@@ -152,7 +152,7 @@ export const lessons2026 = [
     challenge: 'Elige una acción de amor para practicar tres veces durante la semana y compártela con tu familia.',
     motions: 'Vosotros: señala al grupo con las manos abiertas; sois la luz: abre y cierra las manos como rayos; del mundo: dibuja un círculo con los brazos.',
     video: { id: 'LPDauiwnO5o', title: 'El buen samaritano — repaso: mostrar el amor de Jesús', source: 'Casita de Nubes', note: 'Video de repaso de Lucas 10. Relaciona la ayuda del samaritano con las buenas obras de Mateo 5:14–16; el video no narra el Sermón del Monte.' },
-    color: '/colorear-2026/2026-12-27.svg', colorPrompt: 'Colorea la lámpara y dibuja en sus rayos acciones que reflejen el amor de Jesús.'
+    color: '/colorear-2026/2026-12-27.jpg', colorPrompt: 'Colorea la lámpara y a los niños que ayudan. ¿Cómo puedes brillar con el amor de Jesús?'
   }
 ];
 
