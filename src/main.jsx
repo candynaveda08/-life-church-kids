@@ -22,6 +22,7 @@ import Registro from "./pages/Registro";
 import Normas from "./pages/Normas";
 import Colorear from "./pages/Colorear";
 import Historias from "./pages/Historias";
+import CurriculumRoute, { CurrentVerse } from "./curriculum/CurriculumRoute";
 
 
 
@@ -34,17 +35,18 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/inicio" element={<App />} />
-        <Route path="/lesson" element={<Lesson />} />
+        <Route path="/lesson" element={<CurriculumRoute mode="lesson"><Lesson /></CurriculumRoute>} />
         <Route path="/admin" element={<Admin />} />
-        <Route path="/presentation" element={<Presentation />} />
+        <Route path="/presentation" element={<CurriculumRoute mode="presentation"><Presentation /></CurriculumRoute>} />
         <Route path="/alabanzas" element={<Alabanzas />} />
-        <Route path="/juegos" element={<Juegos />} />
-        <Route path="/oracion" element={<Oracion />} />
+        <Route path="/juegos" element={<CurriculumRoute mode="activity"><Juegos /></CurriculumRoute>} />
+        <Route path="/oracion" element={<CurriculumRoute mode="credo"><Oracion /></CurriculumRoute>} />
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Registro />} />
         <Route path="/normas" element={<Normas />} />
-        <Route path="/colorear" element={<Colorear />} />
-        <Route path="/historias" element={<Historias />} />
+        <Route path="/colorear" element={<CurriculumRoute mode="color"><Colorear /></CurriculumRoute>} />
+        <Route path="/versiculo" element={<CurriculumRoute mode="verse"><CurrentVerse /></CurriculumRoute>} />
+        <Route path="/historias" element={<CurriculumRoute mode="story"><Historias /></CurriculumRoute>} />
     
         
       </Routes>

@@ -44,7 +44,7 @@ function App() {
   🎵 Alabanzas
 </button>
 
-        <button className="menu-button">
+        <button className="menu-button" onClick={() => navigate("/versiculo")}>
           📜 Versículo de la semana
         </button>
 
