@@ -21,6 +21,7 @@ import Login from "./pages/Login";
 import Registro from "./pages/Registro";
 import Normas from "./pages/Normas";
 import Colorear from "./pages/Colorear";
+import Historias from "./pages/Historias";
 
 
 
@@ -43,6 +44,7 @@ createRoot(document.getElementById("root")).render(
         <Route path="/registro" element={<Registro />} />
         <Route path="/normas" element={<Normas />} />
         <Route path="/colorear" element={<Colorear />} />
+        <Route path="/historias" element={<Historias />} />
     
         
       </Routes>

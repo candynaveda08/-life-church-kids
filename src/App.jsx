@@ -33,7 +33,7 @@ function App() {
           📖 Lección de la semana
         </button>
 
-        <button className="menu-button">
+        <button className="menu-button" onClick={() => navigate("/historias")} >
           🎥 Historias bíblicas
         </button>
 
