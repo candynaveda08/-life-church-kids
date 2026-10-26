@@ -1,83 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-function Normas() {
+export default function Normas() {
   const navigate = useNavigate();
-
-  
-    const normas = [
-  "👂 Escucha cuando la maestra está hablando.",
-  "❤️ Sé amable y respetuoso con todos.",
-  "🚫 No correr ni subirse en las sillas.",
-  "🙋 Levanta tu mano para hablar.",
-  "🤲 Mantén tus manos para ti.",
-  "🎶 Participa en la alabanza.",
-  "📖 Cuida tus materiales.",
-  "🧸 No traer juguetes de afuera.",
-];
-
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "linear-gradient(#a7e3ff, #ffffff, #a4df80)",
-        padding: "30px 20px",
-        textAlign: "center",
-      }}
-    >
-      <h1 style={{ color: "#8b4513", fontSize: "36px" }}>
-        📋 Normas del Salón
-      </h1>
-
-      <h2 style={{ color: "#444" }}>
-        Life Church Kids
-      </h2>
-
-      <p style={{ fontSize: "20px" }}>
-        Aprendemos a respetarnos y a compartir el amor de Jesús.
-      </p>
-
-      <div
-        style={{
-          maxWidth: "700px",
-          margin: "30px auto",
-          display: "grid",
-          gap: "15px",
-        }}
-      >
-        {normas.map((norma, index) => (
-          <div
-            key={index}
-            style={{
-              background: "white",
-              padding: "20px",
-              borderRadius: "15px",
-              fontSize: "22px",
-              fontWeight: "bold",
-              color: "#333",
-              boxShadow: "0 4px 10px rgba(0,0,0,0.12)",
-            }}
-          >
-            {norma}
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={() => navigate("/inicio")}
-        style={{
-          background: "#a45118",
-          color: "white",
-          padding: "15px 30px",
-          border: "none",
-          borderRadius: "12px",
-          fontSize: "18px",
-          cursor: "pointer",
-        }}
-      >
+    <main style={{ minHeight: "100vh", background: "linear-gradient(#a7e3ff, #ffffff, #a4df80)", padding: "24px 12px", textAlign: "center" }}>
+      <button onClick={() => navigate("/inicio")} style={{ background: "#a45118", color: "white", padding: "15px 30px", border: "none", borderRadius: 12, fontSize: 18, cursor: "pointer", marginBottom: 24 }}>
         🏠 Volver al inicio
       </button>
-    </div>
+      <img src="/normas-del-salon.jpeg" alt="Reglas de nuestra clase: escucha cuando la maestra está hablando; sé amable y respetuoso con todos; no correr ni subirse en las sillas; levanta tu mano para hablar; mantén tus manos para ti; participa en la alabanza; cuida tus materiales; no traer juguetes de afuera. En nuestra clase aprendemos, respetamos y adoramos a Dios. 1 Corintios 14:40." style={{ display: "block", width: "100%", maxWidth: 1068, height: "auto", margin: "0 auto", borderRadius: 12 }} />
+    </main>
   );
 }
-
-export default Normas;
