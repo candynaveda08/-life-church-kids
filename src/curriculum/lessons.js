@@ -107,7 +107,7 @@ export const lessons2026 = [
     prayer: 'Padre, gracias por el regalo de Jesús. Que nuestra celebración esté llena de tu amor. Acompaña a las familias que necesitan consuelo y ayúdanos a servirlas. Amén.',
     challenge: 'Haz un regalo de amor que no cueste dinero: una tarjeta, una ayuda o palabras de ánimo.',
     motions: 'Amó Dios al mundo: dibuja un círculo con los brazos y abraza tu pecho; ha dado: extiende las manos; a su Hijo: mece los brazos como sosteniendo un bebé.',
-    video: { id: 'fKcB1a9Vz7k', title: 'La historia del nacimiento de Jesús', source: 'Minno Español', note: 'Relato navideño. La maestra puede pausar después del nacimiento para repasar Lucas 2:1–7.' },
+    video: { id: 'y_0c8XQs890', title: 'El nacimiento de Jesús explicado para niños', source: 'Biblia para niños - AprendeMás', note: 'En español · aproximadamente 12 minutos y medio. Relato del nacimiento de Jesús con ideas de actividades al final. Para esta lección, destaquen el viaje a Belén y el pesebre, y lean Lucas 2:1–7 y Juan 3:16.' },
     color: '/colorear-2026/2026-12-13.jpg', colorPrompt: 'Colorea el pesebre y la estrella. Recuerda: el regalo más importante es Jesús.'
   },
   {
@@ -129,7 +129,7 @@ export const lessons2026 = [
     prayer: 'Jesús, gracias porque viniste a salvarnos. Llena nuestro corazón de alegría y enséñanos a compartir tu amor con palabras y acciones. Amén.',
     challenge: 'Cuenta a un familiar la noticia que recibieron los pastores y comparte tu estrella de papel.',
     motions: 'Os ha nacido hoy: mece los brazos; ciudad de David: forma un techo; un Salvador: manos sobre el corazón; Cristo el Señor: señala hacia arriba.',
-    video: { id: 'fKcB1a9Vz7k', title: 'El nacimiento de Jesús — para repasar las buenas noticias de Navidad', source: 'Minno Español', note: 'Es el mismo relato navideño de la clase anterior. Esta vez enfóquense en el anuncio y la alegría; lean Lucas 2:8–20 antes de conversar.' },
+    video: { id: 'fKcB1a9Vz7k', title: 'El nacimiento de Jesús — para repasar las buenas noticias de Navidad', source: 'Minno Español', note: 'Enfóquense en el anuncio de los ángeles y la alegría de los pastores; lean Lucas 2:8–20 antes de conversar.' },
     color: '/colorear-2026/2026-12-20.jpg', colorPrompt: 'Colorea al ángel, a los pastores y a las ovejitas. Cuenta la buena noticia: ¡Nació el Salvador!'
   },
   {
