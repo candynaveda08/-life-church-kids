@@ -25,6 +25,7 @@ function Alabanzas() {
     {"nombre":"Dulce Espíritu","artista":"Generación 12 Kids","url":"https://www.youtube.com/watch?v=ibs68lZdSwM"},
     {"nombre":"Gozo","artista":"Miel San Marcos Kids","url":"https://www.youtube.com/watch?v=YXwMBPDJWp4"},
     {"nombre":"Vine a adorarte","artista":"Xtreme Kids","url":"https://www.youtube.com/watch?v=Bqm8fA6xx2Q"},
+    {"nombre":"Hosanna","artista":"Ministerio Infantil Semilla de Fe","url":"https://youtu.be/QQ7h1ZuQcCg?feature=shared"},
   ];
 
   const abrirYouTube = (texto) => {
