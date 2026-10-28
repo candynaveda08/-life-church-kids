@@ -41,3 +41,8 @@
  .lesson-deck:fullscreen .slide-board { overflow:auto; min-height:0; }
 }
 @media print { .deck-toolbar,.deck-controls,.deck-error { display:none!important; } .lesson-deck { background:white; padding:0; } .slide-board { break-inside:avoid; } }
+
+@media(min-width:601px) {
+ .curriculum-shell--slides .slide-board { height:clamp(330px,calc(100svh - 420px),620px); aspect-ratio:auto; }
+ .curriculum-shell--slides .lesson-deck:fullscreen .slide-board { height:auto; min-height:0; }
+}

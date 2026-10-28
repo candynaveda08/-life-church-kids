@@ -3,13 +3,22 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { buscarImagenesBiblicas } from './bibliotecaBiblica';
 import './Presentation.css';
 
-export function splitSlideText(text, limit = 320) {
-  const words = String(text || '').trim().split(/\s+/).filter(Boolean);
+export function splitSlideText(text, limit = 240) {
+  const sentences = String(text || '').trim().split(/(?<=[.!?])\s+/).filter(Boolean);
   const parts = [];
   let part = '';
-  for (const word of words) {
-    if (part && part.length + word.length + 1 > limit) { parts.push(part); part = word; }
-    else part += `${part ? ' ' : ''}${word}`;
+  for (const sentence of sentences) {
+    const pieces = [];
+    let piece = '';
+    for (const word of sentence.split(/\s+/)) {
+      if (piece && piece.length + word.length + 1 > limit) { pieces.push(piece); piece = word; }
+      else piece += `${piece ? ' ' : ''}${word}`;
+    }
+    if (piece) pieces.push(piece);
+    for (const next of pieces) {
+      if (part && part.length + next.length + 1 > limit) { parts.push(part); part = next; }
+      else part += `${part ? ' ' : ''}${next}`;
+    }
   }
   if (part) parts.push(part);
   return parts;
