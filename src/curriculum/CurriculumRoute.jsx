@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { lessons2026, defaultLessonDate } from './lessons';
 import './curriculum.css';
+import Presentation from '../Presentation';
 
 const storageKey = 'life-kids-curriculum-date';
 const tabs = [ ['lesson', '/lesson', 'Lección'], ['color', '/colorear', 'Página para colorear'], ['verse', '/versiculo', 'Versículo de la semana'], ['story', '/historias', 'Historias bíblicas'], ['activity', '/juegos', 'Actividades'], ['credo', '/oracion', 'Credo'] ];
@@ -59,6 +60,25 @@ function Video({ lesson }) {
     <details className="question"><summary>Leer también la historia bíblica</summary>{lesson.story.map(paragraph => <p key={paragraph}>{paragraph}</p>)}</details>
     <h2>Conversemos</h2><Questions lesson={lesson} />
   </>;
+}
+function LessonSlides({ lesson }) {
+  const data = {
+    title: lesson.title,
+    theme: lesson.truth,
+    verse: `${lesson.verse} — ${lesson.verseReference}`,
+    bibleStory: lesson.story.join("\n\n"),
+    explanation: lesson.truth,
+    questions: lesson.questions.map(([question]) => question),
+    answers: lesson.questions.map(([, answer]) => answer),
+    prayer: lesson.prayer,
+    challenge: lesson.challenge,
+    activitySlides: [
+      { title: `🎲 ${lesson.game.title}`, content: lesson.game.steps.map((step, index) => `${index + 1}. ${step}`).join("\n\n") },
+      { title: `🎨 ${lesson.craft.title}`, content: `Materiales: ${lesson.craft.materials}` },
+      ...lesson.craft.steps.map((step, index) => ({ title: `🎨 Actividad: paso ${index + 1}`, content: step })),
+    ],
+  };
+  return <Presentation key={lesson.date} lessonData={data} />;
 }
 function FullLesson({ lesson }) {
   return <>
@@ -120,7 +140,7 @@ export default function CurriculumRoute({ mode, children }) {
       <header className="curriculum-header"><p>Life Church Kids · Ministerio Español</p><h1>{lesson.title}</h1><p><strong>{dateLabel(lesson.date)}</strong> · Maestra: {lesson.teacher}</p><p>{lesson.reference}</p></header>
       <nav className="curriculum-tabs no-print" aria-label="Materiales de esta lección">{tabs.map(([tabMode, path, label]) => <Link key={tabMode} to={`${path}?fecha=${lesson.date}`} aria-current={mode === tabMode ? 'page' : undefined}>{label}</Link>)}</nav>
       <article className="curriculum-card">
-        {(mode === 'lesson' || mode === 'presentation') && <FullLesson lesson={lesson} />}
+        {(mode === 'lesson' || mode === 'presentation') && <><LessonSlides lesson={lesson} /><details className="question no-print"><summary>Ver guía completa para la maestra</summary><FullLesson lesson={lesson} /></details></>}
         {mode === 'color' && <><h2>🖍️ Página para colorear</h2><PrintDrawing lesson={lesson} /></>}
         {mode === 'verse' && <><h2>📜 Versículo de la semana</h2><blockquote>{lesson.verse}<footer>{lesson.verseReference}</footer></blockquote><p className="main-truth">{lesson.truth}</p><h3>Aprendamos con movimientos</h3><p>{lesson.motions}</p><p>Repítanlo juntos tres veces. Los pequeños pueden repetir por frases y los mayores practicar sin mirar.</p><h3>Para practicar en casa</h3><p>{lesson.challenge}</p></>}
         {mode === 'story' && <Video lesson={lesson} />}

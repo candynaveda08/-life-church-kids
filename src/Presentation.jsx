@@ -2,12 +2,16 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { buscarImagenesBiblicas } from "./bibliotecaBiblica";
 
-function Presentation() {
+function Presentation({ lessonData } = {}) {
     const navigate = useNavigate();
-  const [lesson, setLesson] = useState(null);
+  const [lesson, setLesson] = useState(lessonData || null);
   const [slideIndex, setSlideIndex] = useState(0);
 
   useEffect(() => {
+    if (lessonData) {
+      setLesson(lessonData);
+      return;
+    }
     async function loadLesson() {
       try {
         const response = await fetch("https://life-church-kids.onrender.com/api/lessons");
@@ -48,7 +52,7 @@ console.log("Respuestas guardadas:", leccionSeleccionada.answers);
     }
 
     loadLesson();
-  }, []);
+  }, [lessonData]);
 
   if (!lesson) {
     return <h1>No hay una lección publicada.</h1>;
@@ -132,10 +136,12 @@ const partesHistoria = dividirHistoria(lesson.bibleStory);
 },
     
     
+    ...(lesson.activitySlides || []),
     {
       title: "🙏 Oración",
       content: lesson.prayer,
     },
+    ...(lesson.challenge ? [{ title: "⭐ Desafío para casa", content: lesson.challenge }] : []),
   ];
 
   const currentSlide = slides[slideIndex];

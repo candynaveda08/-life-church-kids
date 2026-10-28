@@ -11,7 +11,6 @@ import "./index.css";
 import App from "./App";
 
 
-import Lesson from "./pages/Lesson";
 import Admin from "./pages/Admin";
 import Presentation from "./Presentation";
 import Alabanzas from "./pages/Alabanzas";
@@ -35,7 +34,7 @@ createRoot(document.getElementById("root")).render(
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/inicio" element={<App />} />
-        <Route path="/lesson" element={<CurriculumRoute mode="lesson"><Lesson /></CurriculumRoute>} />
+        <Route path="/lesson" element={<CurriculumRoute mode="lesson"><Presentation /></CurriculumRoute>} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/presentation" element={<CurriculumRoute mode="presentation"><Presentation /></CurriculumRoute>} />
         <Route path="/alabanzas" element={<Alabanzas />} />
