@@ -23,7 +23,7 @@ function Alabanzas() {
     {"nombre":"Jesús mi Salvador","artista":"Pequeños Héroes · Generación 12 Kids","url":"https://www.youtube.com/watch?v=pMx7fHUnQ5Y"},
     {"nombre":"Canto y danzo","artista":"Pequeños Héroes · Generación 12 Kids","url":"https://www.youtube.com/watch?v=puFkZuEZqgM"},
     {"nombre":"Dulce Espíritu","artista":"Generación 12 Kids","url":"https://www.youtube.com/watch?v=ibs68lZdSwM"},
-    {"nombre":"Amamos Tu Presencia","artista":"Miel San Marcos Kids","url":"https://www.youtube.com/watch?v=Kp2tKn0WD4o"},
+    {"nombre":"Gozo","artista":"Miel San Marcos Kids","url":"https://www.youtube.com/watch?v=YXwMBPDJWp4"},
     {"nombre":"Vine a adorarte","artista":"Xtreme Kids","url":"https://www.youtube.com/watch?v=Bqm8fA6xx2Q"},
   ];
 
