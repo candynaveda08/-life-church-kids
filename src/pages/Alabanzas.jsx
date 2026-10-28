@@ -26,6 +26,12 @@ function Alabanzas() {
     {"nombre":"Gozo","artista":"Miel San Marcos Kids","url":"https://www.youtube.com/watch?v=YXwMBPDJWp4"},
     {"nombre":"Vine a adorarte","artista":"Xtreme Kids","url":"https://www.youtube.com/watch?v=Bqm8fA6xx2Q"},
     {"nombre":"Hosanna","artista":"Ministerio Infantil Semilla de Fe","url":"https://youtu.be/QQ7h1ZuQcCg?feature=shared"},
+    {"nombre":"Es Navidad","artista":"Semilla de Fe · Ministerio Infantil","url":"https://www.youtube.com/watch?v=i2LLln-inoQ"},
+    {"nombre":"Emanuel (Dios aquí)","artista":"Semilla de Fe · Ministerio Infantil","url":"https://www.youtube.com/watch?v=Dn-3r0Plrm4"},
+    {"nombre":"Aquí estamos","artista":"Semilla de Fe · Ministerio Infantil","url":"https://www.youtube.com/watch?v=INpbu5Q_jqc"},
+    {"nombre":"Danzando","artista":"Iglekids CDDVE · Coreokids","url":"https://www.youtube.com/watch?v=qIqQR1xdTt4"},
+    {"nombre":"Espíritu Santo","artista":"Iglekids CDDVE · Coreokids","url":"https://www.youtube.com/watch?v=dxN4aOxMq7A"},
+    {"nombre":"Alaba – Gigantes de la fe","artista":"Iglekids CDDVE · Coreokids","url":"https://www.youtube.com/watch?v=7HyrKl93lU0"},
   ];
 
   const abrirYouTube = (texto) => {
