@@ -27,3 +27,19 @@
 .curriculum-video { width:100%; aspect-ratio:16/9; border:0; border-radius:12px; }
 .curriculum-shell :focus-visible { outline:3px solid #cd6500; outline-offset:3px; }
 @media print { .curriculum-picker,.no-print,.resource-actions,.curriculum-card button { display:none!important; } .curriculum-content { max-width:none; padding:0; } .curriculum-card { box-shadow:none; padding:0; font-size:12pt; } .curriculum-card h2 { break-after:avoid; } .question { break-inside:avoid; } .curriculum-header { padding:0; } .curriculum-header h1 { font-size:22pt; } .coloring-sheet { max-height:245mm; width:auto; max-width:100%; border:0; } }
+
+.curriculum-shell--slides .curriculum-picker { margin:10px auto; padding:12px 16px; }
+.curriculum-shell--slides .curriculum-picker label { font-size:17px; margin-bottom:6px; }
+.curriculum-shell--slides .curriculum-picker p { display:none; }
+.curriculum-shell--slides .curriculum-content { max-width:1126px; padding:8px 12px; }
+.curriculum-shell--slides .curriculum-header { padding:4px 8px 12px; font-size:16px; line-height:1.4; }
+.curriculum-materials { margin-bottom:14px; text-align:left; }
+.curriculum-materials > summary { cursor:pointer; font-weight:600; padding:8px; }
+.curriculum-materials .curriculum-tabs { margin-top:10px; }
+.curriculum-slides { padding:0; margin:0; min-width:0; }
+@media(max-width:600px) {
+ .curriculum-shell--slides .curriculum-content { padding:6px; }
+ .curriculum-shell--slides .curriculum-picker { margin:8px 6px; padding:10px; }
+ .curriculum-shell--slides .curriculum-header { font-size:14px; }
+ .curriculum-shell--slides .curriculum-picker select { font-size:15px; }
+}

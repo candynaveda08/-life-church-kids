@@ -122,11 +122,12 @@ export default function CurriculumRoute({ mode, children }) {
   const saved = params.get('fecha') ?? readPreference() ?? defaultLessonDate();
   const selected = lessons2026.some(lesson => lesson.date === saved) ? saved : 'actual';
   const lesson = lessons2026.find(item => item.date === selected);
+  const isSlides = mode === 'lesson' || mode === 'presentation';
   function selectDate(value) {
     try { localStorage.setItem(storageKey, value); } catch { /* Navigation still works without storage. */ }
     setParams(previous => { const next = new URLSearchParams(previous); next.set('fecha', value); return next; });
   }
-  return <div className="curriculum-shell">
+  return <div className={`curriculum-shell${isSlides ? " curriculum-shell--slides" : ""}`}>
     <section className="curriculum-picker" aria-label="Seleccionar fecha de clase">
       <label htmlFor="curriculum-date">📅 Fecha de la clase</label>
       <select id="curriculum-date" value={selected} onChange={event => selectDate(event.target.value)}>
@@ -136,11 +137,11 @@ export default function CurriculumRoute({ mode, children }) {
       <p>Programa de noviembre–diciembre 2026 según el cronograma de maestras. Selecciona una fecha para preparar sus materiales.</p>
     </section>
     {lesson ? <main className="curriculum-content" key={`${lesson.date}-${mode}`}>
-      <div className="resource-actions no-print"><Link to="/inicio">← Volver al inicio</Link><button onClick={() => window.print()}>🖨️ Imprimir esta página</button></div>
-      <header className="curriculum-header"><p>Life Church Kids · Ministerio Español</p><h1>{lesson.title}</h1><p><strong>{dateLabel(lesson.date)}</strong> · Maestra: {lesson.teacher}</p><p>{lesson.reference}</p></header>
-      <nav className="curriculum-tabs no-print" aria-label="Materiales de esta lección">{tabs.map(([tabMode, path, label]) => <Link key={tabMode} to={`${path}?fecha=${lesson.date}`} aria-current={mode === tabMode ? 'page' : undefined}>{label}</Link>)}</nav>
-      <article className="curriculum-card">
-        {(mode === 'lesson' || mode === 'presentation') && <><LessonSlides lesson={lesson} /><details className="question no-print"><summary>Ver guía completa para la maestra</summary><FullLesson lesson={lesson} /></details></>}
+      {!isSlides && <div className="resource-actions no-print"><Link to="/inicio">← Volver al inicio</Link><button onClick={() => window.print()}>🖨️ Imprimir esta página</button></div>}
+      <header className="curriculum-header">{!isSlides && <><p>Life Church Kids · Ministerio Español</p><h1>{lesson.title}</h1></>}<p><strong>{dateLabel(lesson.date)}</strong> · Maestra: {lesson.teacher}</p><p>{lesson.reference}</p></header>
+      <details className="curriculum-materials no-print" open={isSlides ? undefined : true}><summary>Materiales de esta lección</summary><nav className="curriculum-tabs no-print" aria-label="Materiales de esta lección">{tabs.map(([tabMode, path, label]) => <Link key={tabMode} to={`${path}?fecha=${lesson.date}`} aria-current={mode === tabMode ? 'page' : undefined}>{label}</Link>)}</nav></details>
+      <article className={isSlides ? "curriculum-slides" : "curriculum-card"}>
+        {(mode === 'lesson' || mode === 'presentation') && <><LessonSlides lesson={lesson} /><details className="question no-print"><summary>Ver guía completa para la maestra</summary><div className="curriculum-card"><FullLesson lesson={lesson} /></div></details></>}
         {mode === 'color' && <><h2>🖍️ Página para colorear</h2><PrintDrawing lesson={lesson} /></>}
         {mode === 'verse' && <><h2>📜 Versículo de la semana</h2><blockquote>{lesson.verse}<footer>{lesson.verseReference}</footer></blockquote><p className="main-truth">{lesson.truth}</p><h3>Aprendamos con movimientos</h3><p>{lesson.motions}</p><p>Repítanlo juntos tres veces. Los pequeños pueden repetir por frases y los mayores practicar sin mirar.</p><h3>Para practicar en casa</h3><p>{lesson.challenge}</p></>}
         {mode === 'story' && <Video lesson={lesson} />}

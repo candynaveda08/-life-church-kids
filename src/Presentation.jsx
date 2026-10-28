@@ -1,410 +1,122 @@
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { buscarImagenesBiblicas } from "./bibliotecaBiblica";
+import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { buscarImagenesBiblicas } from './bibliotecaBiblica';
+import './Presentation.css';
 
-function Presentation({ lessonData } = {}) {
-    const navigate = useNavigate();
-  const [lesson, setLesson] = useState(lessonData || null);
+export function splitSlideText(text, limit = 320) {
+  const words = String(text || '').trim().split(/\s+/).filter(Boolean);
+  const parts = [];
+  let part = '';
+  for (const word of words) {
+    if (part && part.length + word.length + 1 > limit) { parts.push(part); part = word; }
+    else part += `${part ? ' ' : ''}${word}`;
+  }
+  if (part) parts.push(part);
+  return parts;
+}
+
+export function buildSlides(lesson) {
+  if (!lesson) return [];
+  const textSlides = (title, text) => {
+    const parts = splitSlideText(text);
+    return parts.map((content, index) => ({ title, content, part: parts.length > 1 ? `${index + 1} de ${parts.length}` : '' }));
+  };
+  const questions = (Array.isArray(lesson.questions) ? lesson.questions : []).map((question, index) => ({ question: String(question || '').trim(), answer: lesson.answers?.[index] })).filter(item => item.question);
+  return [
+    { title: '¡Bienvenidos a Life Church Kids!', cover: true, image: '/bienvenida-kids.png', content: lesson.title },
+    ...textSlides('✨ Tema de la lección', lesson.theme || lesson.title),
+    ...textSlides('📖 Versículo para memorizar', lesson.verse),
+    ...textSlides('📖 Historia bíblica', lesson.bibleStory),
+    ...textSlides('💡 Aprendamos juntos', lesson.explanation),
+    ...questions.map((item, index) => ({ title: `❓ Pregunta ${index + 1}`, content: item.question, answer: item.answer || 'Conversemos juntos sobre esta pregunta.' })),
+    ...(Array.isArray(lesson.activitySlides) ? lesson.activitySlides : []).flatMap(slide => textSlides(slide.title, slide.content)),
+    ...textSlides('🙏 Oración', lesson.prayer),
+    ...textSlides('⭐ Desafío para casa', lesson.challenge),
+  ];
+}
+
+export default function Presentation({ lessonData } = {}) {
+  const navigate = useNavigate();
+  const [params] = useSearchParams();
+  const lessonId = params.get('id');
+  const [loadedLesson, setLoadedLesson] = useState(null);
+  const [status, setStatus] = useState('Cargando la lección…');
   const [slideIndex, setSlideIndex] = useState(0);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [fullscreenError, setFullscreenError] = useState('');
+  const deck = useRef(null);
+  const lesson = lessonData || loadedLesson;
+  const slides = buildSlides(lesson);
+  const index = Math.min(slideIndex, Math.max(0, slides.length - 1));
+  const current = slides[index];
 
   useEffect(() => {
-    if (lessonData) {
-      setLesson(lessonData);
-      return;
-    }
+    if (lessonData) return;
+    let active = true;
+    setLoadedLesson(null);
+    setStatus('Cargando la lección…');
     async function loadLesson() {
       try {
-        const response = await fetch("https://life-church-kids.onrender.com/api/lessons");
+        const response = await fetch('https://life-church-kids.onrender.com/api/lessons');
+        if (!response.ok) throw new Error('No se pudo cargar la lección.');
         const data = await response.json();
-
-       if (data.length > 0) {
-  const id = new URLSearchParams(window.location.search).get("id");
-
-  const leccionSeleccionada = id
-    ? data.find((item) => item._id === id)
-    : data[data.length - 1];
-
-  if (leccionSeleccionada) {
-  const imagenes = buscarImagenesBiblicas(
-    leccionSeleccionada.title,
-    leccionSeleccionada.theme,
-    leccionSeleccionada.bibleStory
-  );
-
-  setLesson({
-  ...leccionSeleccionada,
-  imagenColor: imagenes.imagenColor,
-  dibujo: imagenes.dibujo,
-  answers: Array.isArray(leccionSeleccionada.answers)
-    ? leccionSeleccionada.answers
-    : [],
-});
-
-
-console.log("Respuestas guardadas:", leccionSeleccionada.answers);
-} else {
-  setLesson(null);
-}
-} 
-      } catch (error) {
-        console.error("Error cargando la lección:", error);
-      }
+        const selected = Array.isArray(data) ? (lessonId ? data.find(item => item._id === lessonId) : data.at(-1)) : null;
+        if (!active) return;
+        if (!selected) { setStatus('No hay una lección publicada.'); return; }
+        const images = buscarImagenesBiblicas(selected.title, selected.theme, selected.bibleStory);
+        setLoadedLesson({ ...selected, imagenColor: images.imagenColor, answers: Array.isArray(selected.answers) ? selected.answers : [] });
+        setSlideIndex(0);
+      } catch { if (active) setStatus('No se pudo cargar la lección. Intenta actualizar la página.'); }
     }
-
     loadLesson();
-  }, [lessonData]);
+    return () => { active = false; };
+  }, [lessonData, lessonId]);
 
-  if (!lesson) {
-    return <h1>No hay una lección publicada.</h1>;
+  useEffect(() => {
+    function handleKey(event) {
+      if (!slides.length || event.altKey || event.ctrlKey || event.metaKey || event.target.closest?.('input, select, textarea, [contenteditable="true"], summary')) return;
+      if (!deck.current?.contains(event.target) && event.target !== document.body) return;
+      if (event.key === 'ArrowRight') { event.preventDefault(); setSlideIndex(previous => Math.min(previous + 1, slides.length - 1)); }
+      if (event.key === 'ArrowLeft') { event.preventDefault(); setSlideIndex(previous => Math.max(previous - 1, 0)); }
+    }
+    document.addEventListener('keydown', handleKey);
+    return () => document.removeEventListener('keydown', handleKey);
+  }, [slides.length]);
+
+  useEffect(() => {
+    const update = () => setIsFullscreen(document.fullscreenElement === deck.current);
+    document.addEventListener('fullscreenchange', update);
+    return () => document.removeEventListener('fullscreenchange', update);
+  }, []);
+
+  async function toggleFullscreen() {
+    setFullscreenError('');
+    try {
+      if (document.fullscreenElement === deck.current) await document.exitFullscreen();
+      else await deck.current.requestFullscreen();
+    } catch { setFullscreenError('Tu navegador no permitió la pantalla completa. Puedes seguir usando las diapositivas aquí.'); }
   }
 
-  // DIVIDIR LA HISTORIA BÍBLICA EN VARIAS LÁMINAS
-function dividirHistoria(texto, maxCaracteres = 450) {
-  if (!texto || !texto.trim()) return [];
+  if (!current) return <section className="lesson-deck deck-status"><p role="status">{status}</p><button type="button" onClick={() => navigate('/inicio')}>← Volver al inicio</button></section>;
 
-  const palabras = texto.trim().split(/\s+/);
-  const partes = [];
-  let parteActual = "";
-
-  palabras.forEach((palabra) => {
-    const nuevaParte = parteActual
-      ? parteActual + " " + palabra
-      : palabra;
-
-    if (nuevaParte.length > maxCaracteres && parteActual) {
-      partes.push(parteActual);
-      parteActual = palabra;
-    } else {
-      parteActual = nuevaParte;
-    }
-  });
-
-  if (parteActual) {
-    partes.push(parteActual);
-  }
-
-  if (partes.length > 1) {
-    const ultima = partes[partes.length - 1];
-
-    if (ultima.length < 150) {
-      partes[partes.length - 2] += " " + ultima;
-      partes.pop();
-    }
-  }
-
-  return partes;
-}
-
-const partesHistoria = dividirHistoria(lesson.bibleStory);
-
-  const slides = [
-    {
-  title: "¡BIENVENIDOS A LIFE CHURCH KIDS!",
-  content: "",
-  imagen: "/bienvenida-kids.png",
-},
-   {
-    title: "✨ Tema de la lección",
-    content: lesson.theme,
-  },
-
-
-    {
-      title: "📖 Versículo para memorizar",
-      content: lesson.verse,
-    },
-
-    ...partesHistoria.map((parte, index) => ({
-  title: `📖 Historia bíblica ${index + 1} de ${partesHistoria.length}`,
-  content: parte,
-  imagen: index === 0 ? lesson.imagenColor : null,
-})),
-    
-    
-    ...dividirHistoria(lesson.explanation, 300).map((parte, index, partes) => ({
-  title: `💡 Explicación ${index + 1} de ${partes.length}`,
-  content: parte,
-})),
-    {
-  title: "❓ Preguntas",
-  content: lesson.questions
-    ?.slice(0, 6)
-    .map((pregunta, index) => `${index + 1}. ${pregunta}`)
-    .join("\n\n"),
-  questions: lesson.questions?.slice(0, 6),
-  answers: lesson.answers?.slice(0, 6),
-},
-    
-    
-    ...(lesson.activitySlides || []),
-    {
-      title: "🙏 Oración",
-      content: lesson.prayer,
-    },
-    ...(lesson.challenge ? [{ title: "⭐ Desafío para casa", content: lesson.challenge }] : []),
-  ];
-
-  const currentSlide = slides[slideIndex];
-
-  const nextSlide = () => {
-    if (slideIndex < slides.length - 1) {
-      setSlideIndex(slideIndex + 1);
-    }
-  };
-
-  const previousSlide = () => {
-    if (slideIndex > 0) {
-      setSlideIndex(slideIndex - 1);
-    }
-  };
-
-  return (
-    <main
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        padding: "40px",
-        boxSizing: "border-box",
-      }}
-    >
-      
-
-      <h2
-        style={{
-          fontSize: "36px",
-          marginBottom: "15px",
-        }}
-      >
-        {currentSlide.title}
-      </h2>
-
-      {currentSlide.title.includes("Historia bíblica 1 de") && lesson.imagenColor && (
-  <img
-    src={lesson.imagenColor}
-    alt={lesson.title}
-    style={{
-      width: "100%",
-      maxWidth: "850px",
-      maxHeight: "30vh",
-      objectFit: "contain",
-      borderRadius: "20px",
-      boxShadow: "0 12px 30px rgba(0,0,0,0.25)",
-      border: "5px solid white", 
-      marginBottom: "10px",
-    }}
-  />
-)}
-
-      {currentSlide.questions ? (
-  <div style={{ maxWidth: "900px", margin: "auto" }}>
-    {currentSlide.questions
-      .filter((pregunta) => pregunta.trim() !== "")
-      .map((pregunta, index) => (
-        <details
-          key={index}
-          style={{
-            marginBottom: "25px",
-            padding: "15px",
-            backgroundColor: "white",
-            borderRadius: "15px",
-            textAlign: "center",
-          }}
-        >
-          <summary
-            style={{
-              fontSize: "26px",
-              cursor: "pointer",
-              color: "#174ea6",
-              fontWeight: "bold",
-            }}
-          >
-            {index + 1}. {pregunta}
-            <div style={{ fontSize: "18px", marginTop: "10px" }}>
-              👀 Mostrar respuesta
-            </div>
-          </summary>
-
-          <p style={{ fontSize: "25px", color: "green" }}>
-            ✅ {currentSlide.answers?.[index] || "Respuesta pendiente"}
-          </p>
-        </details>
-      ))}
-  </div>
-) : (
-  currentSlide.content ? (
-  <p
-    style={{
-      fontSize: "clamp(26px, 2.5vw, 36px)",
-      lineHeight: 1.3,
-      maxWidth: "1000px",
-      width: "90%",
-      whiteSpace: "pre-line",
-      background: "rgba(255,255,255,0.95)",
-      padding: "20px 30px",
-      borderRadius: "25px",
-      margin: "20px auto",
-      color: "#34495e",
-      boxShadow: "0 10px 30px rgba(0,0,0,0.12)",
-      border: "3px solid white",
-    }}
-  >
-    {currentSlide.content}
-  </p>
-) : null
-
-
-
-)}
-  {currentSlide.imagen &&
-  !currentSlide.imprimir &&
-  !currentSlide.title.includes("Historia bíblica") && (
-    <div
-      style={{
-        position: "relative",
-        width: "100%",
-        maxWidth: "900px",
-        margin: "15px auto",
-      }}
-    >
-      <img
-        src={currentSlide.imagen}
-        alt="Bienvenidos a Life Church Kids"
-        style={{
-          width: "100%",
-          display: "block",
-          borderRadius: "20px",
-        }}
-      />
-
-      {slideIndex === 0 && (
-        <div
-          style={{
-            position: "absolute",
-            top: "54%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "50%",
-            textAlign: "center",
-            fontSize: "clamp(14px, 2vw, 24px)",
-            fontWeight: "bold",
-            color: "#173b8c",
-            lineHeight: 1.1,
-            overflowWrap: "break-word",
-          }}
-        >
-          {lesson.title.replace(
-  /\s+(?=(?:Génesis|Éxodo|Levítico|Números|Deuteronomio|Josué|Jueces|Rut|Samuel|Reyes|Crónicas|Esdras|Nehemías|Ester|Job|Salmos|Proverbios|Eclesiastés|Isaías|Jeremías|Ezequiel|Daniel|Mateo|Marcos|Lucas|Juan|Hechos|Romanos|Corintios|Gálatas|Efesios|Filipenses|Colosenses|Timoteo|Hebreos|Santiago|Pedro|Apocalipsis)\s+\d)/i,
-  "\n"
-).split("\n").map((parte, index) => (
-  <div key={index}>{parte}</div>
-))}
-        </div>
-      )}
+  return <section className="lesson-deck" aria-label="Presentación de la lección" ref={deck}>
+    <div className="deck-toolbar">
+      <button type="button" onClick={() => navigate('/inicio')}>← Inicio</button>
+      <span className="deck-name">Life Church Kids</span>
+      {typeof document !== 'undefined' && document.fullscreenEnabled && <button type="button" onClick={toggleFullscreen}>{isFullscreen ? 'Salir de pantalla completa' : '⛶ Pantalla completa'}</button>}
     </div>
-  )}
-
-      
-      {currentSlide.imprimir &&110
-       && (
-  <button
-    onClick={() => {
-      const ventana = window.open("", "_blank");
-
-      if (!ventana) {
-        alert("Permite las ventanas emergentes para imprimir.");
-        return;
-      }
-
-      const imagen = document.createElement("img");
-      imagen.src = currentSlide.imagen;
-      imagen.style.width = "100%";
-
-      ventana.document.body.appendChild(imagen);
-      ventana.document.close();
-
-      imagen.onload = () => {
-        ventana.focus();
-        ventana.print();
-      };
-    }}
-    style={{
-      padding: "15px 30px",
-      backgroundColor: "#4CAF50",
-      color: "white",
-      border: "none",
-      borderRadius: "12px",
-      fontSize: "20px",
-      cursor: "pointer",
-      marginTop: "20px",
-    }}
-  >
-    🖨️ Imprimir dibujo
-  </button>
-)}
-
-      <div
-        style={{
-          display: "flex",
-          gap: "30px",
-          marginTop: "50px",
-        }}
-      >
-        <button
-          onClick={previousSlide}
-          disabled={slideIndex === 0}
-          style={{
-            fontSize: "26px",
-            padding: "16px 32px",
-            cursor: "pointer",
-          }}
-        >
-          ⬅️ Anterior
-        </button>
-
-        <button
-          onClick={nextSlide}
-          disabled={slideIndex === slides.length - 1}
-          style={{
-            fontSize: "26px",
-            padding: "16px 32px",
-            cursor: "pointer",
-          }}
-        >
-          Siguiente ➡️
-        </button>
+    {fullscreenError && <p className="deck-error" role="status">{fullscreenError}</p>}
+    <div className={`slide-board${current.cover ? ' slide-board--cover' : ''}`} aria-live="polite" aria-atomic="true">
+      <header className="slide-heading"><h2>{current.title}</h2>{current.part && <p className="slide-part">Parte {current.part}</p>}</header>
+      <div className="slide-body" key={index}>
+        {current.cover ? <><img className="slide-cover-image" src={current.image} alt="Bienvenidos a Life Church Kids" /><p className="slide-cover-title">{lesson.title}</p></> : <><p className="slide-text">{current.content}</p>{current.answer && <details className="slide-answer"><summary>👀 Mostrar respuesta</summary><p>{current.answer}</p></details>}</>}
       </div>
-      <button
-  type="button"
-  onClick={() => navigate("/inicio")}
-  style={{
-    marginTop: "25px",
-    fontSize: "20px",
-    padding: "12px 25px",
-    cursor: "pointer",
-    backgroundColor: "#c62828",
-    color: "white",
-    border: "none",
-    borderRadius: "10px",
-    fontWeight: "bold",
-  }}
->
-  🏠 Volver al inicio
-</button>
-
-      <p
-        style={{
-          marginTop: "25px",
-          fontSize: "22px",
-        }}
-      >
-        {slideIndex + 1} de {slides.length}
-      </p>
-    </main>
-  );
+      <p className="slide-brand">Aprendiendo juntos la Palabra de Dios</p>
+    </div>
+    <nav className="deck-controls" aria-label="Navegar diapositivas">
+      <button type="button" onClick={() => setSlideIndex(Math.max(index - 1, 0))} disabled={index === 0}>← Anterior</button>
+      <span className="deck-counter" aria-live="polite">{index + 1} de {slides.length}</span>
+      <button type="button" onClick={() => setSlideIndex(Math.min(index + 1, slides.length - 1))} disabled={index === slides.length - 1}>Siguiente →</button>
+    </nav>
+  </section>;
 }
-
-export default Presentation;
