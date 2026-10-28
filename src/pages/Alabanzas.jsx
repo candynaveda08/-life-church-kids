@@ -5,7 +5,7 @@ function Alabanzas() {
   const navigate = useNavigate();
   const [busqueda, setBusqueda] = useState("");
 
-  // Las tres alabanzas fijas de Life Church Kids
+  // Alabanzas de Life Church Kids
   const canciones = [
     {
       nombre: "Grande y Fuerte",
@@ -19,6 +19,12 @@ function Alabanzas() {
       nombre: "Todo lo has cambiado",
       url: "https://youtu.be/6BFGT8QbfIU",
     },
+
+    {"nombre":"Jesús mi Salvador","artista":"Pequeños Héroes · Generación 12 Kids","url":"https://www.youtube.com/watch?v=pMx7fHUnQ5Y"},
+    {"nombre":"Canto y danzo","artista":"Pequeños Héroes · Generación 12 Kids","url":"https://www.youtube.com/watch?v=puFkZuEZqgM"},
+    {"nombre":"Dulce Espíritu","artista":"Generación 12 Kids","url":"https://www.youtube.com/watch?v=ibs68lZdSwM"},
+    {"nombre":"Amamos Tu Presencia","artista":"Miel San Marcos Kids","url":"https://www.youtube.com/watch?v=Kp2tKn0WD4o"},
+    {"nombre":"Vine a adorarte","artista":"Xtreme Kids","url":"https://www.youtube.com/watch?v=Bqm8fA6xx2Q"},
   ];
 
   const abrirYouTube = (texto) => {
@@ -105,7 +111,10 @@ function Alabanzas() {
               🎵 {index + 1}. {cancion.nombre}
             </h2>
 
+            {cancion.artista && <p style={{ color: "#34495e", fontSize: "17px", margin: "10px 0 18px" }}>{cancion.artista}</p>}
+
             <button
+              aria-label={`Reproducir ${cancion.nombre} en YouTube`}
               onClick={() =>
   cancion.url
     ? window.open(cancion.url, "_blank", "noopener,noreferrer")
@@ -122,7 +131,7 @@ function Alabanzas() {
                 cursor: "pointer",
               }}
             >
-              ▶️ Buscar en YouTube
+              ▶️ Ver en YouTube
             </button>
           </div>
         ))}
