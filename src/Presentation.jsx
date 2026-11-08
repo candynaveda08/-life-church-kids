@@ -80,7 +80,7 @@ function PresentationDeck({ lessonData, lessonId }) {
     <div className={`slide-board${current.cover ? ' slide-board--cover' : ''}`} aria-live="polite" aria-atomic="true">
       <header className="slide-heading"><h2>{current.title}</h2>{current.part && <p className="slide-part">Parte {current.part}</p>}</header>
       <div className="slide-body" key={index}>
-        {current.cover ? <><img className="slide-cover-image" src={current.image} alt="Bienvenidos a Life Church Kids" /><p className="slide-cover-title">{lesson.title}</p></> : <><p className="slide-text">{current.content}</p>{current.answer && <details className="slide-answer"><summary>👀 Mostrar respuesta</summary><p>{current.answer}</p></details>}</>}
+        {current.cover ? <div className="slide-cover-art"><img className="slide-cover-image" src={current.image} alt="Bienvenidos a Life Church Kids" /><p className="slide-cover-title">{lesson.title}</p></div> : <><p className="slide-text">{current.content}</p>{current.answer && <details className="slide-answer"><summary>👀 Mostrar respuesta</summary><p>{current.answer}</p></details>}</>}
       </div>
       <p className="slide-brand">Aprendiendo juntos la Palabra de Dios</p>
     </div>
