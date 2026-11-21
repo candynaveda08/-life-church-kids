@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import "./App.css";
 import logo from "./assets/life-kids-logo.png";
 import { lessons2026, defaultLessonDate } from "./curriculum/lessons";
+import BibleIllustration from "./curriculum/BibleIllustration";
 
 
 function App() {
@@ -27,7 +28,7 @@ function App() {
           Aprendiendo juntos la Palabra de Dios
         </p>
         <div className="weekly-illustration" role="img" aria-label={`Ilustración de la lección: ${featuredLesson.title}`}>
-          <div className="weekly-illustration-art" aria-hidden="true">{({ "2026-11-08": "🐑🌿👨‍🦯", "2026-11-15": "🙏💛✨", "2026-11-22": "🧺🍞🐟", "2026-11-29": "👼🌟🕊️", "2026-12-13": "🌟👶🛏️", "2026-12-20": "👼🐑🌠", "2026-12-27": "🕯️💛🤝" })[featuredLesson.date] || "📖🌈✨"}</div>
+          <BibleIllustration lesson={featuredLesson} />
           <p>{featuredLesson.title}</p>
           <small>{featuredLesson.reference}</small>
         </div>
