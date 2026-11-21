@@ -43,3 +43,12 @@
  .curriculum-shell--slides .curriculum-header { font-size:14px; }
  .curriculum-shell--slides .curriculum-picker select { font-size:15px; }
 }
+
+/* Prevent iPad Safari from overlapping long lesson titles and yellow lesson panels. */
+.curriculum-shell, .curriculum-shell * { min-width:0; }
+.curriculum-header { height:auto; min-height:0; overflow:visible; }
+.curriculum-header h1 { display:block; max-width:100%; height:auto; margin:12px auto; font-size:clamp(24px,4.5vw,44px); line-height:1.3; overflow-wrap:anywhere; word-break:normal; white-space:normal; }
+.curriculum-picker { height:auto; overflow:visible; }
+.curriculum-picker select { max-width:100%; text-overflow:ellipsis; }
+.curriculum-shell--slides .curriculum-header { height:auto; }
+@media(max-width:820px) { .curriculum-header { padding:14px 10px; } .curriculum-header h1 {font-size:clamp(23px,5vw,34px);line-height:1.35;} .curriculum-picker {margin:12px 8px;padding:14px;} }
