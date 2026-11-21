@@ -245,3 +245,9 @@ h1 {
   border: 2px solid #ddd;
   font-size: 18px;
 }
+/* Responsive, distinct weekly Bible-story illustration beneath the welcome text. */
+.weekly-illustration { width:min(560px,100%); margin:22px auto 8px; padding:20px 16px; border:3px solid #e6ad32; border-radius:24px; background:linear-gradient(135deg,#fff5bd,#d8f4ff 55%,#e6ffd6); box-shadow:0 8px 20px #173b5720; overflow-wrap:anywhere; }
+.weekly-illustration-art { font-size:clamp(42px,9vw,76px); line-height:1.45; letter-spacing:0.03em; }
+.weekly-illustration p { font-size:clamp(19px,3vw,25px); font-weight:700; line-height:1.35; color:#573b1d; margin:8px 0; }
+.weekly-illustration small { display:block; color:#31516a; font-size:16px; }
+@media(max-width:600px) { .app {padding:22px 14px;} .weekly-illustration {padding:14px 10px;} }
