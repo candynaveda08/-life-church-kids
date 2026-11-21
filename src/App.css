@@ -251,3 +251,5 @@ h1 {
 .weekly-illustration p { font-size:clamp(19px,3vw,25px); font-weight:700; line-height:1.35; color:#573b1d; margin:8px 0; }
 .weekly-illustration small { display:block; color:#31516a; font-size:16px; }
 @media(max-width:600px) { .app {padding:22px 14px;} .weekly-illustration {padding:14px 10px;} }
+
+.bible-scene {display:block;width:100%;height:auto;max-height:360px;margin:0 auto;border-radius:18px;box-shadow:0 5px 16px #173b5720;}
