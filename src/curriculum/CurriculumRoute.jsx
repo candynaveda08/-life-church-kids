@@ -3,6 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom';
 import { lessons2026, defaultLessonDate } from './lessons';
 import './curriculum.css';
 import Presentation from '../Presentation';
+import BibleIllustration from './BibleIllustration';
 
 const storageKey = 'life-kids-curriculum-date';
 const tabs = [ ['lesson', '/lesson', 'Lección'], ['color', '/colorear', 'Página para colorear'], ['verse', '/versiculo', 'Versículo de la semana'], ['story', '/historias', 'Historias bíblicas'], ['activity', '/juegos', 'Actividades'], ['credo', '/oracion', 'Credo'] ];
@@ -141,6 +142,7 @@ export default function CurriculumRoute({ mode, children }) {
       <header className="curriculum-header">{!isSlides && <><p>Life Church Kids · Ministerio Español</p><h1>{lesson.title}</h1></>}<p><strong>{dateLabel(lesson.date)}</strong> · Maestra: {lesson.teacher}</p><p>{lesson.reference}</p></header>
       <details className="curriculum-materials no-print" open={isSlides ? undefined : true}><summary>Materiales de esta lección</summary><nav className="curriculum-tabs no-print" aria-label="Materiales de esta lección">{tabs.map(([tabMode, path, label]) => <Link key={tabMode} to={`${path}?fecha=${lesson.date}`} aria-current={mode === tabMode ? 'page' : undefined}>{label}</Link>)}</nav></details>
       <article className={isSlides ? "curriculum-slides" : "curriculum-card"}>
+        {isSlides && <div className="lesson-story-illustration"><BibleIllustration lesson={lesson}/></div>}
         {(mode === 'lesson' || mode === 'presentation') && <><LessonSlides lesson={lesson} /><details className="question no-print"><summary>Ver guía completa para la maestra</summary><div className="curriculum-card"><FullLesson lesson={lesson} /></div></details></>}
         {mode === 'color' && <><h2>🖍️ Página para colorear</h2><PrintDrawing lesson={lesson} /></>}
         {mode === 'verse' && <><h2>📜 Versículo de la semana</h2><blockquote>{lesson.verse}<footer>{lesson.verseReference}</footer></blockquote><p className="main-truth">{lesson.truth}</p><h3>Aprendamos con movimientos</h3><p>{lesson.motions}</p><p>Repítanlo juntos tres veces. Los pequeños pueden repetir por frases y los mayores practicar sin mirar.</p><h3>Para practicar en casa</h3><p>{lesson.challenge}</p></>}
